@@ -3,6 +3,7 @@
 
 const express = require('express');
 const morgan = require('morgan');
+const mysql = require('./database/mySQL_connection');
 
 //====================================================================
 //importation des routeurs
