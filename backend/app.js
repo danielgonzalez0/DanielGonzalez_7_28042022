@@ -7,7 +7,7 @@ const mysql = require('./database/mySQL_connection');
 
 //====================================================================
 //importation des routeurs
-//const userRoutes = require('./routes/user');
+const userRoutes = require('./routes/user_routes');
 //const sauceRoutes = require('./routes/sauce');
 
 //====================================================================
@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 //====================================================================
 //configuration des routes
 
-//app.use('/api/auth', userRoutes);
-//app.use('/api/sauces', sauceRoutes);
+app.use('/api/user', userRoutes);
+//app.use('/api/post', postRoutes);
 
 //====================================================================
 //configuration route d'accès au dossier /images pour les requêtes avec fichier

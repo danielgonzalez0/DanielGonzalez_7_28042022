@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `sn_users`
 	`id_user` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT, 
 	`user_firstname` VARCHAR(65) NOT NULL, 
 	`user_lastname` VARCHAR(65) NOT NULL, 
-	`user_fullname` VARCHAR(130),
+	`user_fullname` VARCHAR(130) UNIQUE,
 	`user_email`VARCHAR(65) NOT NULL UNIQUE, 
     `user_password` VARCHAR(255) NOT NULL, 
 	`user_registration` DATETIME DEFAULT NOW(),
@@ -72,8 +72,8 @@ ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 -- ajout user -----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 */
-INSERT INTO `sn_users`(`user_firstname`,`user_lastname`, `user_email`, `user_fullname`, `user_password`)
-VALUES('Daniel', 'GONZALEZ', 'daniel@xyz.com',CONCAT(`user_firstname`,' ',`user_lastname`), 'Azerty1');
+INSERT INTO `sn_users`(`user_firstname`,`user_lastname`, `user_email`, `user_password`, `user_fullname`)
+VALUES('Daniel', 'GONZALEZ', 'daniel@xyz.com', 'Azerty1',CONCAT(user_firstname,' ',user_lastname));
 
 /*
 ----------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ VALUES('Daniel', 'GONZALEZ', 'daniel@xyz.com',CONCAT(`user_firstname`,' ',`user_
 */
 
 INSERT INTO `sn_posts`(`post_title`,`post_content`, `post_image`, `post_author`)
-VALUES('1er post', 'bonjour le monde', '', 2);
+VALUES('1er post', 'bonjour le monde', '', 1);
 
 /*
 ----------------------------------------------------------------------------------------------------------------
