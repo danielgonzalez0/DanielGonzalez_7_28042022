@@ -15,7 +15,7 @@ mysqlConnection.connect((err) => {
     console.log(`error connecting: ${err}`);
   } else {
     console.log(`connecté à mySQL - ${mysqlConnection.config.database}`);
-    console.log(`connecté avec l'id - ${mysqlConnection.threadId}`);
+    //console.log(`connecté avec l'id - ${mysqlConnection.threadId}`);
   }
 });
 

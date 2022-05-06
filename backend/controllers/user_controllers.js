@@ -36,32 +36,41 @@ VALUES('${firstname}','${lastname}' , '${email}', '${hash}', CONCAT(user_firstna
 }; //end middleware signup
 
 //==========================================================================
-/*//middleware login pour connecter les utilisateurs existants
+//middleware login pour connecter les utilisateurs existants
 
 exports.login = (req, res, next) => {
-  //trouver l'utilisateur avec méthode findOne
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé!' });
+  const { email, password } = req.body; //destructuring
+  mysql.query(
+    `SELECT id_user, user_email, user_password FROM sn_users where user_email = '${email}';`,
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
       }
-      // si Utilisateur trouvé, comparer le MDP requête avec MDP user avec bcrypt
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then((valid) => {
-          if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect!' });
-          }
-          //si mdp ok renvoie userId + un token
-          res.status(200).json({
-            userId: user._id, //_id => créer par MongoDB
-            token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-              expiresIn: '24h',
-            }),
-          });
-        }) //end then compare
-        .catch((error) => res.status(500).json({ error })); //end catch compare
-    }) //end then findOne
-    .catch((error) => res.status(500).json({ error })); //end catchfindOne
+      if (result.length === 0) {
+        res.status(404).json({ message: 'Utilisateur non trouvé!' });
+      } else {
+        // si Utilisateur trouvé, comparer le MDP requête avec MDP user avec bcrypt
+        bcrypt
+          .compare(password, result[0].user_password)
+          .then((valid) => {
+            if (!valid) {
+              return res.status(401).json({ error: 'Mot de passe incorrect!' });
+            }
+            //si mdp ok renvoie userId + un token
+            res.status(200).json({
+              userId: result[0].id_user,
+              token: jwt.sign(
+                { userId: result[0].id_user },
+                process.env.JWT_SECRET_KEY,
+                {
+                  expiresIn: '24h',
+                }
+              ),
+            });
+          }) //end then compare
+          .catch((err) => res.status(500).json({ err })); //end catch compare
+      }
+    }
+  ); // end query
 }; //end middleware login
-*/
