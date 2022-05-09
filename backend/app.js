@@ -4,6 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mysql = require('./database/mySQL_connection');
+const cookieParser = require('cookie-parser');
 
 //====================================================================
 //importation des routeurs
@@ -25,6 +26,8 @@ app.use(morgan('dev'));
 
 //Accéder au body des requêtes dans les middlewares (req.body)
 app.use(express.json());
+//accès au cookies dans req
+app.use(cookieParser());
 
 //mise en place des headers pour éviter bloquant du CORS
 

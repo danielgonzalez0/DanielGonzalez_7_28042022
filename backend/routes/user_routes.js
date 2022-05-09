@@ -16,15 +16,28 @@ const router = express.Router();
 //====================================================================
 //Importation du controller
 
+const authCtrl = require('../controllers/auth_controllers');
 const userCtrl = require('../controllers/user_controllers');
+const authMiddleware = require('../middleware/auth_middleware');
 
 //====================================================================
 //Création des routes
 
-router.post('/signup', userCtrl.signup);
-router.post('/login', userCtrl.login);
-router.get('/logout', userCtrl.logout);
+//auth
 
+router.post('/signup', authCtrl.signup);
+router.post('/login', authCtrl.login);
+
+
+//user
+
+router.get('/',authMiddleware, userCtrl.getAllUsers);
+/*router.get('/:id', userController.getUserInfo);
+router.put('/:id', userController.updateUser);
+router.delete('/:id', userController.deleteUser);
+router.patch('/follow/:id', userController.follow); //patch pour mettre à jour tab dans BD
+router.patch('/unfollow/:id', userController.unFollow);
+*/
 //====================================================================
 //exportation du router
 
