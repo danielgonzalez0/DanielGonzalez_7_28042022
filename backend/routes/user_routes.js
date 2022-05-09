@@ -32,7 +32,8 @@ router.post('/login', authCtrl.login);
 //user
 
 router.get('/',authMiddleware, userCtrl.getAllUsers);
-/*router.get('/:id', userController.getUserInfo);
+router.get('/:id',authMiddleware, userCtrl.getUserInfo);
+/*
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.patch('/follow/:id', userController.follow); //patch pour mettre à jour tab dans BD

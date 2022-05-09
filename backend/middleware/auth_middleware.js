@@ -24,18 +24,14 @@ module.exports = (req, res, next) => {
           return res.sendStatus(403);
         } else {
           
- 
-
-    console.log('accessToken = ' + accessToken);
-
-    const userId = accessToken.userId;
+    const userId = decodedToken.userId;
     //Ajout userId du token décodé dans requête d’authentification
     req.auth = { userId };
     //vérifier si userId de la requête correspond au userId autorisé
     if (req.body.userId && req.body.userId !== userId) {
       throw 'User ID non valide!';
     } else {
-      console.log('req.auth = ' + req.auth);
+      console.log('req.auth = ' + req.auth.userId);
       next();
     }   }} );//end try
   } catch {
