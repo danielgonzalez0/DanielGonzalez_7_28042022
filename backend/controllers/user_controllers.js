@@ -8,6 +8,13 @@ const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const maxAge = 12 * 60 * 60000; // correspond à 12h en mms
+
+//==========================================================================
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: maxAge }); //10min en reel
+}
 
 //==========================================================================
 //middleware signup pour enregistrement nouveaux utilisateurs
@@ -25,7 +32,7 @@ VALUES('${firstname}','${lastname}' , '${email}', '${hash}', CONCAT(user_firstna
         (error, result) => {
           if (error) {
             console.log(error);
-            res.status(400).json({ error });
+            res.status(400).json({ error }); // mettre en place message d'erreurs
           } else {
             res.status(201).json({ message: 'Utilisateur créé' });
           }
@@ -41,7 +48,7 @@ VALUES('${firstname}','${lastname}' , '${email}', '${hash}', CONCAT(user_firstna
 exports.login = (req, res, next) => {
   const { email, password } = req.body; //destructuring
   mysql.query(
-    `SELECT id_user, user_email, user_password FROM sn_users where user_email = '${email}';`,
+    `SELECT id_user, user_email, user_password, user_fullname FROM sn_users where user_email = '${email}';`,
     (error, result) => {
       if (error) {
         console.log(error);
@@ -51,26 +58,35 @@ exports.login = (req, res, next) => {
         res.status(404).json({ message: 'Utilisateur non trouvé!' });
       } else {
         // si Utilisateur trouvé, comparer le MDP requête avec MDP user avec bcrypt
+
+        const user = {
+          userId: result[0].id_user,
+          userPassword: result[0].user_password,
+          userName: result[0].user_fullname,
+          userMail: result[0].user_email,
+        };
+
         bcrypt
-          .compare(password, result[0].user_password)
+          .compare(password, user.userPassword)
           .then((valid) => {
             if (!valid) {
               return res.status(401).json({ error: 'Mot de passe incorrect!' });
             }
             //si mdp ok renvoie userId + un token
-            res.status(200).json({
-              userId: result[0].id_user,
-              token: jwt.sign(
-                { userId: result[0].id_user },
-                process.env.JWT_SECRET_KEY,
-                {
-                  expiresIn: '24h',
-                }
-              ),
-            });
+            const accessToken = generateAccessToken(user);
+            res.cookie('jwt', accessToken, { httpOnly: true, maxAge: maxAge });
+            res.status(200).json({ accessToken: accessToken });
           }) //end then compare
           .catch((err) => res.status(500).json({ err })); //end catch compare
       }
     }
   ); // end query
 }; //end middleware login
+
+//==========================================================================
+//fonction logout
+
+module.exports.logout = async (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/'); //renvoie err 404 not found mais sinon req n'aboutit pas
+}; //end logout

@@ -3,6 +3,8 @@
 -- Re-création de la base de données ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 */
+DROP TABLE IF EXISTS `sn_likes`;
+DROP TABLE IF EXISTS `sn_follow`;
 DROP TABLE IF EXISTS `sn_comments`;
 DROP TABLE IF EXISTS `sn_posts`;
 DROP TABLE IF EXISTS `sn_users`;
@@ -26,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `sn_users`
 	`user_email`VARCHAR(65) NOT NULL UNIQUE, 
     `user_password` VARCHAR(255) NOT NULL, 
 	`user_registration` DATETIME DEFAULT NOW(),
+	`user_picture`VARCHAR(255) DEFAULT './uploads/profil/random-user.png',
 	`user_admin` BOOLEAN DEFAULT 0,
 
 
@@ -38,13 +41,13 @@ CREATE TABLE IF NOT EXISTS `sn_posts`
     `id_post` MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
     `post_title`VARCHAR(80) NOT NULL,
     `post_content`TEXT NOT NULL,
-	`post_image`VARCHAR(80),
+	`post_image`VARCHAR(255),
     `post_author` SMALLINT(6) UNSIGNED NOT NULL, 
 	`post_registration` DATETIME DEFAULT NOW(),
 	`post_update` DATETIME DEFAULT NOW(), 
 
     PRIMARY KEY (`id_post`),
-    FOREIGN KEY (`post_author`) REFERENCES `sn_users`(`id_user`)
+    FOREIGN KEY (`post_author`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE
 )
 
 ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -60,11 +63,35 @@ CREATE TABLE IF NOT EXISTS `sn_comments`
 	`comment_update` DATETIME DEFAULT NOW(), 
 
     PRIMARY KEY (`id_comment`),
-    FOREIGN KEY (`comment_author`) REFERENCES `sn_users`(`id_user`),
-	FOREIGN KEY (`comment_parent`) REFERENCES `sn_posts`(`id_post`)
+    FOREIGN KEY (`comment_author`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,
+	FOREIGN KEY (`comment_parent`) REFERENCES `sn_posts`(`id_post`) ON DELETE CASCADE
 	
 )
 
+ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `sn_likes`(
+	`id_like` MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
+	`like_user` SMALLINT(6) UNSIGNED NOT NULL, 
+	`like_post` MEDIUMINT(9) UNSIGNED NOT NULL,
+
+	PRIMARY KEY (`id_like`),
+	FOREIGN KEY (`like_user`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,
+	FOREIGN KEY (`like_post`) REFERENCES `sn_posts`(`id_post`) ON DELETE CASCADE
+
+)
+ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `sn_follow`(
+	`id_follow` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+	`id_follower` SMALLINT(6) UNSIGNED NOT NULL, 
+	`id_following` SMALLINT(6) UNSIGNED NOT NULL,
+
+	PRIMARY KEY (`id_follow`),
+	FOREIGN KEY (`id_follower`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,
+	FOREIGN KEY (`id_following`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE
+
+)
 ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 /*

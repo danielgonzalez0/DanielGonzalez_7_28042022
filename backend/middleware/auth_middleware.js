@@ -11,13 +11,14 @@ require('dotenv').config();
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const userId = decodedToken.id_user;
+    const accessToken = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+    console.log('decodedToken = ' + decodedToken);
+    const userId = decodedToken.userId;
     //Ajout userId du token décodé dans requête d’authentification
-    req.auth = { id_user };
+    req.auth = { userId };
     //vérifier si userId de la requête correspond au userId autorisé
-    if (req.body.id_user && req.body.id_user !== userId) {
+    if (req.body.userId && req.body.userId !== userId) {
       throw 'User ID non valide!';
     } else {
       next();

@@ -23,6 +23,7 @@ const userCtrl = require('../controllers/user_controllers');
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
+router.get('/logout', userCtrl.logout);
 
 //====================================================================
 //exportation du router
