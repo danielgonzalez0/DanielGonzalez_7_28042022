@@ -18,7 +18,9 @@ const router = express.Router();
 
 const authCtrl = require('../controllers/auth_controllers');
 const userCtrl = require('../controllers/user_controllers');
+const uploadCtrl = require('../controllers/upload_controller');
 const authMiddleware = require('../middleware/auth_middleware');
+const multerProfil = require('../middleware/multer_profil');
 
 //====================================================================
 //Création des routes
@@ -28,18 +30,21 @@ const authMiddleware = require('../middleware/auth_middleware');
 router.post('/signup', authCtrl.signup);
 router.post('/login', authCtrl.login);
 
-
 //user
 
-router.get('/',authMiddleware, userCtrl.getAllUsers);
-router.get('/:id',authMiddleware, userCtrl.getUserInfo);
-router.put('/:id',authMiddleware, userCtrl.updateUserInfo);
+router.get('/', authMiddleware, userCtrl.getAllUsers);
+router.get('/:id', authMiddleware, userCtrl.getUserInfo);
+router.put('/:id', authMiddleware, userCtrl.updateUserInfo);
 router.put('/security/:id', authMiddleware, userCtrl.updateUserPassword);
-router.delete('/:id', authMiddleware ,userCtrl.deleteUser);
+router.delete('/:id', authMiddleware, userCtrl.deleteUser);
 /*
 router.patch('/follow/:id', userController.follow); //patch pour mettre à jour tab dans BD
 router.patch('/unfollow/:id', userController.unFollow);
 */
+
+//upload
+router.post('/upload/:id', authMiddleware, multerProfil, uploadCtrl.uploadProfil ); //file = name of the field in req.body
+
 //====================================================================
 //exportation du router
 
