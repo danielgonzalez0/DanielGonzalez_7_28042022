@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `sn_users`
 	`user_firstname` VARCHAR(65) NOT NULL, 
 	`user_lastname` VARCHAR(65) NOT NULL, 
 	`user_fullname` VARCHAR(130) UNIQUE,
+	`user_job` VARCHAR(130) NOT NULL,
 	`user_email`VARCHAR(65) NOT NULL UNIQUE, 
     `user_password` VARCHAR(255) NOT NULL, 
 	`user_registration` DATETIME DEFAULT NOW(),
@@ -99,8 +100,8 @@ ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 -- ajout user -----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 */
-INSERT INTO `sn_users`(`user_firstname`,`user_lastname`, `user_email`, `user_password`, `user_fullname`)
-VALUES('Daniel', 'GONZALEZ', 'daniel@xyz.com', 'Azerty1',CONCAT(user_firstname,' ',user_lastname));
+INSERT INTO `sn_users`(`user_firstname`,`user_lastname`,`user_job`, `user_email`, `user_password`, `user_fullname`)
+VALUES('Daniel', 'Gonzalez','CEO', 'daniel@xyz.com', 'Azerty1',CONCAT(user_firstname,' ',user_lastname));
 
 /*
 ----------------------------------------------------------------------------------------------------------------

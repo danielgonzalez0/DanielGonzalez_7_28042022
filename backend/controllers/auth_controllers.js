@@ -20,15 +20,15 @@ function generateAccessToken(user) {
 //middleware signup pour enregistrement nouveaux utilisateurs
 
 exports.signup = (req, res, next) => {
-  const { firstname, lastname, email, password } = req.body; //destructuring
+  const { firstname, lastname, job, email, password } = req.body; //destructuring
   //hashage MDP
   bcrypt
     .hash(password, 10)
     .then((hash) => {
       //création nouvel utilisateur
       mysql.query(
-        `INSERT INTO sn_users(user_firstname, user_lastname, user_email, user_password, user_fullname)
-VALUES('${firstname}','${lastname}' , '${email}', '${hash}', CONCAT(user_firstname,' ',user_lastname));`,
+        `INSERT INTO sn_users(user_firstname, user_lastname, user_job,  user_email, user_password, user_fullname)
+VALUES('${firstname}','${lastname}' ,'${job}', '${email}', '${hash}', CONCAT(user_firstname,' ',user_lastname));`,
         (error, result) => {
           if (error) {
             console.log(error);
@@ -81,4 +81,3 @@ exports.login = (req, res, next) => {
     }
   ); // end query
 }; //end middleware login
-
