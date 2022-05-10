@@ -111,7 +111,7 @@ module.exports.updateUserPassword = async (req, res) => {
           if (result.length === 0) {
             res.status(404).json({ message: 'Utilisateur non trouvé!' });
           } else {
-            // si Utilisateur trouvé, comparer le MDP requête avec MDP user avec bcrypt
+            // check old password
 
             const user = {
               userPassword: result[0].user_password,
@@ -158,3 +158,35 @@ module.exports.updateUserPassword = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end updateUserPassword
+
+//--------------------------------------------------------------------------
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log('id = ' + typeof (parseInt(id)));
+    if (id != req.auth.userId) {
+      res.status(403).json({ error: 'User ID non autorisé!' });
+    } else {
+      //début code
+      mysql.query(
+        `DELETE FROM sn_users where id_user = ?;`,
+        [id],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+          }
+          if (result.length === 0) {
+            res.status(404).json({ message: 'Utilisateur non trouvé!' });
+          } else {
+            res.status(200).json({ message: 'Compte utilisateur supprimé' });
+          }
+        }
+      ); //mysql query
+
+      //fin du code
+    }
+  } catch (err) {
+    res.status(500).json({ err });
+  } //end try & catch
+}; //end deleteUser
