@@ -37,10 +37,9 @@ router.get('/:id', authMiddleware, userCtrl.getUserInfo);
 router.put('/:id', authMiddleware, userCtrl.updateUserInfo);
 router.put('/security/:id', authMiddleware, userCtrl.updateUserPassword);
 router.delete('/:id', authMiddleware, userCtrl.deleteUser);
-/*
-router.patch('/follow/:id', userController.follow); //patch pour mettre à jour tab dans BD
-router.patch('/unfollow/:id', userController.unFollow);
-*/
+router.post('/follow/:id', authMiddleware, userCtrl.follow); 
+router.delete('/unfollow/:id', authMiddleware, userCtrl.unfollow);
+
 
 //upload
 router.post('/upload/:id', authMiddleware, multerProfil, uploadCtrl.uploadProfil ); //file = name of the field in req.body

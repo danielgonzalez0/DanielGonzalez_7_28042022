@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `sn_follow`(
 	`id_follow` SMALLINT(6) NOT NULL AUTO_INCREMENT,
 	`id_follower` SMALLINT(6) UNSIGNED NOT NULL, 
 	`id_following` SMALLINT(6) UNSIGNED NOT NULL,
+	`follow_key` VARCHAR(20),
 
 	PRIMARY KEY (`id_follow`),
 	FOREIGN KEY (`id_follower`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,

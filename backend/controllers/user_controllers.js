@@ -163,7 +163,6 @@ module.exports.updateUserPassword = async (req, res) => {
 module.exports.deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log('id = ' + typeof (parseInt(id)));
     if (id != req.auth.userId) {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
@@ -190,3 +189,139 @@ module.exports.deleteUser = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end deleteUser
+//--------------------------------------------------------------------------
+module.exports.follow = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (id != req.auth.userId) {
+      return res.status(403).json({ error: 'User ID non autorisé!' });
+    }
+    const { idToFollow } = req.body; //destructuring
+    if (id === idToFollow)
+      return res.status(400).send('Id à suivre est égal à votre Id');
+    else {
+      //début code
+
+      mysql.query(
+        `SELECT id_user FROM sn_users where id_user = ? ;`,
+        [idToFollow],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+          }
+          if (result.length === 0) {
+            res
+              .status(404)
+              .json({ message: 'Utilisateur à suivre non trouvé!' });
+          } else {
+            const followKey = id + '/' + idToFollow;
+            console.log('followKey = ' + followKey);
+            mysql.query(
+              `SELECT follow_key FROM sn_follow where follow_key = ? ;`,
+              [followKey],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                }
+                if (result.length === 0) {
+                  mysql.query(
+                    `INSERT INTO sn_follow(id_follower, id_following, follow_key)
+VALUES(?,?, CONCAT(id_follower,'/',id_following));`,
+                    [id, idToFollow],
+                    (error, result) => {
+                      if (error) {
+                        console.log(error);
+                        res.status(400).json({ error });
+                      } else {
+                        res.status(201).json({ message: 'Utilisateur suivi' });
+                      }
+                    }
+                  );
+                } else {
+                  res.status(400).json({
+                    message: 'Utilisateur déjà suivi!',
+                  });
+                }
+              }
+            ); //end sql query
+
+            //fin code
+          } //end if
+        }
+      ); //end sql query
+    } //end if
+  } catch (err) {
+    res.status(500).json({ err });
+  } //end try & catch
+}; //end follow
+
+//--------------------------------------------------------------------------
+module.exports.unfollow = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (id != req.auth.userId) {
+      return res.status(403).json({ error: 'User ID non autorisé!' });
+    }
+    const { idToUnfollow } = req.body; //destructuring
+    if (id === idToUnfollow)
+      return res.status(400).send(`L'Id à ne plus suivre est égal à votre Id`);
+    else {
+      //début code
+
+      mysql.query(
+        `SELECT id_user FROM sn_users where id_user = ? ;`,
+        [idToUnfollow],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+          }
+          if (result.length === 0) {
+            res
+              .status(404)
+              .json({ message: 'Utilisateur à ne plus suivre non trouvé!' });
+          } else {
+            const followKey = id + '/' + idToUnfollow;
+            console.log('followKey = ' + followKey);
+            mysql.query(
+              `SELECT follow_key FROM sn_follow where follow_key = ? ;`,
+              [followKey],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                }
+                if (result.length === 0) {
+                  res.status(400).json({
+                    message: `Utilisateur n'est pas suivi!`,
+                  });
+                } else {
+                  mysql.query(
+                    `DELETE FROM sn_follow where follow_key = ?;`,
+                    [followKey],
+                    (error, result) => {
+                      if (error) {
+                        console.log(error);
+                        res.status(400).json({ error });
+                      } else {
+                        res
+                          .status(200)
+                          .json({ message: 'suivi utilisateur supprimé' });
+                      }
+                    }
+                  ); //mysql query
+                }
+              }
+            ); //end sql query
+
+            //fin code
+          } //end if
+        }
+      ); //end sql query
+    } //end if
+  } catch (err) {
+    res.status(500).json({ err });
+  } //end try & catch
+}; //end follow
