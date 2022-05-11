@@ -29,24 +29,25 @@ module.exports.uploadProfil = async (req, res) => {
 
             //début code
             // console.log(req.file);
-
-            try {
-              if (
-                req.file.mimetype != 'image/jpeg' &&
-                req.file.mimetype != 'image/png' &&
-                req.file.mimetype != 'image/jpg'
-              )
-                throw Error('Invalid file');
-              //test size
-              if (req.file.size > 500000) throw Error('max size');
-            } catch (err) {
-              const errors = uploadErrors(err);
-              console.log(errors);
-              fs.unlink(`${path}${req.file.filename}`, function (errors) {
-                if (errors) console.log('ERROR: ' + errors);
-              }); // end fs.unlink
-              return res.status(201).json(errors);
-            } //end try & catch
+            if (!req.file)
+            return res.status(400).json({message: "Image manquante"})
+              try {
+                if (
+                  req.file.mimetype != 'image/jpeg' &&
+                  req.file.mimetype != 'image/png' &&
+                  req.file.mimetype != 'image/jpg'
+                )
+                  throw Error('Invalid file');
+                //test size
+                if (req.file.size > 500000) throw Error('max size');
+              } catch (err) {
+                const errors = uploadErrors(err);
+                console.log(errors);
+                fs.unlink(`${path}${req.file.filename}`, function (errors) {
+                  if (errors) console.log('ERROR: ' + errors);
+                }); // end fs.unlink
+                return res.status(201).json(errors);
+              } //end try & catch
 
             // file path creation
 
@@ -92,3 +93,5 @@ module.exports.uploadProfil = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end uploadProfil
+
+

@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 //====================================================================
 //importation des routeurs
-const userRoutes = require('./routes/user_routes');
+const userRoutes = require('./routes/user.routes');
 //const sauceRoutes = require('./routes/sauce');
 
 //====================================================================

@@ -1,5 +1,6 @@
 const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 //--------------------------------------------------------------------------
 module.exports.getAllUsers = async (req, res) => {
@@ -97,6 +98,10 @@ module.exports.updateUserPassword = async (req, res) => {
     } else {
       //début code
       const { oldPassword, newPassword } = req.body; //destructuring
+      if (oldPassword === newPassword)
+        return res.status(400).json({
+          message: `Le nouveau mot de passe ne peut être identique au mot de passe actuel`,
+        });
 
       //check old password
 
@@ -325,3 +330,4 @@ module.exports.unfollow = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end follow
+
