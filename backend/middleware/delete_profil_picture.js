@@ -45,4 +45,4 @@ module.exports = async (req, res, next) => {
     res.status(500).json({ err });
   }
 }; //end deleteProfilePicture
-//const path = `${process.cwd()}\\client\\public\\uploads\\profil\\`;
+
