@@ -20,6 +20,7 @@ const postCtrl = require('../controllers/post_controller');
 const uploadCtrl = require('../controllers/upload_controller');
 const authMiddleware = require('../middleware/auth_middleware');
 const multerPost = require('../middleware/multer_post');
+const deletePostPicture = require('../middleware/delete_post_picture');
 
 //====================================================================
 //Création des routes
@@ -28,7 +29,8 @@ const multerPost = require('../middleware/multer_post');
 
 router.get('/', authMiddleware, postCtrl.readPost);
 router.post('/', authMiddleware, multerPost, postCtrl.createPost);
-//router.put('/:id', postController.updatePost);
+router.put('/:id', authMiddleware,postCtrl.updatePost );
+router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
 //router.delete('/:id', postController.deletePost);
 //router.patch('/like-post/:id', postController.likePost);
 //router.patch('/unlike-post/:id', postController.unlikePost);

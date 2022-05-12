@@ -60,19 +60,14 @@ module.exports.createPost = async (req, res) => {
     );
   } //end if (req.file!=null)
 
-// post creation in DB
+  // post creation in DB
 
   const postImage = req.file != null ? '.uploads/posts/' + fileName : '';
 
   mysql.query(
     `INSERT INTO sn_posts (post_title, post_content , post_image, post_author)
 VALUES(?, ?, ?, ?);`,
-    [
-      `${req.body.title}`,
-      `${req.body.content}`,
-      `${postImage}`,
-      `${userId}`,
-    ],
+    [`${req.body.title}`, `${req.body.content}`, `${postImage}`, `${userId}`],
     (error, result) => {
       if (error) {
         console.log(error);
@@ -81,11 +76,128 @@ VALUES(?, ?, ?, ?);`,
         res.status(201).json({ message: 'Post créé' });
       }
     }
-  );// mysql query
+  ); // mysql query
 }; //end Post
 
 //--------------------------------------------------------------------------
+module.exports.updatePost = async (req, res) => {
+  //select user_author
+  const idPost = req.params.id;
+  mysql.query(
+    `SELECT * FROM sn_posts WHERE id_post = ?`,
+    [idPost],
+    (error, post) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      }
+      if (post.length === 0) {
+        res.status(404).json({ message: 'Post non trouvé!' });
+      } else {
+        const idAuthor = post[0].post_author;
+        console.log('id author récupéré = ' + idAuthor);
+        //debut code
 
+        try {
+          if (idAuthor != req.auth.userId) {
+            res.status(403).json({ error: 'User ID non autorisé!' });
+          } else {
+            // debut save message BD
+
+      if (req.body.content == '')
+        return res.status(400).json({
+          message: `Le contenu à modifier est vide`,
+        });
+
+      mysql.query(
+        `UPDATE sn_posts SET  post_content = ?, post_update = NOW() where id_post = ?;`,
+        [`${req.body.content}`, idPost],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+        
+          } else {
+            res.status(200).json({ message: 'Message ost modifié' });
+          }
+        }
+      ); //mysql query
+    
+
+            // fin  save message BD
+
+           
+          } //end if
+        } catch (err) {
+          res.status(400).json({ err });
+        } //end try & catch
+
+        // fin code
+      }
+    }
+  );
+
+
+}; //end Post
+
+//--------------------------------------------------------------------------
+module.exports.deletePostImage = async (req, res, next) => {
+  const userId = req.auth.userId;
+  console.log('id author post = ' + userId);
+  const path = `${process.cwd()}\\client\\public\\uploads\\post\\`;
+  console.log('path = ' + path);
+
+  const idPost = req.params.id;
+  mysql.query(
+    `SELECT * FROM sn_posts WHERE id_post = ?`,
+    [idPost],
+    (error, post) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      }
+      if (post.length === 0) {
+        res.status(404).json({ message: 'Post non trouvé!' });
+      } else {
+        const idAuthor = post[0].post_author;
+        const pictureName = post[0].post_image.replace('./uploads/posts/', '');
+        console.log('id author récupéré = ' + idAuthor);
+        console.log('nom image récupéré = ' + pictureName);
+
+        //debut code
+        // get filename
+        try {
+          if (idAuthor != req.auth.userId) {
+            res.status(403).json({ error: 'User ID non autorisé!' });
+          } else {
+            const urlPicture = path + pictureName;
+            //delete picture
+            if (pictureName != '') {
+              fs.unlink(urlPicture, (error) => {
+                if (error) return console.log('pas de photo à supprimer');
+                //supprimer lien BD
+                mysql.query(
+                  `UPDATE sn_posts SET post_image ='' WHERE id_post = ?;`,[idPost],
+                  (error, post) => {
+                    if (error) {
+                      console.log(error);
+                      res.status(400).json({ error });
+                    } else {
+                      res.status(200).json({ message: 'image supprimée' });
+                    }
+                  }
+                );
+              });
+            }
+          }
+        } catch (err) {
+          res.status(500).json({ err });
+        }
+        // fin code
+      }
+    }
+  );
+}; //end Post
 //--------------------------------------------------------------------------
 module.exports.Post = async (req, res) => {
   try {
