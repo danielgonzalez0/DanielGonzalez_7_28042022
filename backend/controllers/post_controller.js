@@ -204,8 +204,7 @@ module.exports.deletePostImage = async (req, res, next) => {
 //--------------------------------------------------------------------------
 
 module.exports.deletePost = async (req, res) => {
-
-//select user_author
+  //select user_author
   const idPost = req.params.id;
   mysql.query(
     `SELECT * FROM sn_posts WHERE id_post = ?`,
@@ -232,11 +231,8 @@ module.exports.deletePost = async (req, res) => {
                 if (error) {
                   console.log(error);
                   res.status(400).json({ error });
-                
                 } else {
-                  res
-                    .status(200)
-                    .json({ message: 'Post supprimé' });
+                  res.status(200).json({ message: 'Post supprimé' });
                 }
               }
             ); //mysql query
@@ -246,44 +242,77 @@ module.exports.deletePost = async (req, res) => {
         } catch (err) {
           res.status(400).json({ err });
         } //end try & catch
-
-      
       }
     }
-  );//end 1st sql query
-
-
-    /*
-  try {
-    const id = req.params.id;
-    if (id != req.auth.userId) {
-      res.status(403).json({ error: 'User ID non autorisé!' });
-    } else {
-      //début code
-      mysql.query(
-        `DELETE FROM sn_users where id_user = ?;`,
-        [id],
-        (error, result) => {
-          if (error) {
-            console.log(error);
-            res.status(400).json({ error });
-          }
-          if (result.length === 0) {
-            res.status(404).json({ message: 'Utilisateur non trouvé!' });
-          } else {
-            res.status(200).json({ message: 'Compte utilisateur supprimé' });
-          }
-        }
-      ); //mysql query
-
-      //fin du code
-    }
-  } catch (err) {
-    res.status(500).json({ err });
-  } //end try & catch
-  */
+  ); //end 1st sql query
 }; //end deletePost
 //--------------------------------------------------------------------------
+module.exports.likePost = async (req, res) => {
+  try {
+    const idPost = req.params.id;
+    const userId = req.auth.userId;
+
+    mysql.query(
+      `SELECT * FROM sn_posts WHERE id_post = ?`,
+      [idPost],
+      (error, post) => {
+        if (error) {
+          console.log(error);
+          res.status(400).json({ error });
+        }
+        if (post.length === 0) {
+          res.status(404).json({ message: 'Post non trouvé!' });
+        } else {
+          const idAuthor = post[0].post_author;
+          if (idAuthor === userId)
+            return res
+              .status(400)
+              .json({
+                message: `L'auteur du post n'est pas authorisé à aimer son post`,
+              });
+          const likeKey = userId + '/' + idPost;
+          console.log('like key= ' + likeKey);
+
+          mysql.query(
+            `SELECT like_key FROM sn_likes where like_key = ? ;`,
+            [likeKey],
+            (error, result) => {
+              if (error) {
+                console.log(error);
+                res.status(400).json({ error });
+              }
+
+              if (result.length === 0) {
+                mysql.query(
+                  `INSERT INTO sn_likes(like_user, like_post, like_key)
+VALUES(?,?, CONCAT(like_user,'/',like_post));`,
+                  [userId, idPost],
+                  (error, result) => {
+                    if (error) {
+                      console.log(error);
+                      res.status(400).json({ error });
+                    } else {
+                      res.status(201).json({ message: 'like enregistré' });
+                    }
+                  }
+                );
+              } else {
+                res.status(400).json({
+                  message: 'post déjà aimé!',
+                });
+              }
+            }
+          ); //end 2nd sql query
+        }
+      }
+    ); //end 1st sql query
+  } catch (err) {
+    res.status(400).json({ err });
+  } //end try & catch
+}; //end likePost
+
+//--------------------------------------------------------------------------
+
 module.exports.Post = async (req, res) => {
   try {
     const id = req.params.id;
