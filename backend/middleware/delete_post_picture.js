@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = async (req, res, next) => {
   const userId = req.auth.userId;
   console.log('id author post = ' + userId);
-  const path = `${process.cwd()}\\client\\public\\uploads\\post\\`;
+  const path = `${process.cwd()}\\client\\public\\uploads\\posts\\`;
   console.log('path = ' + path);
 
   const idPost = req.params.id;

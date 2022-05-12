@@ -62,7 +62,7 @@ module.exports.createPost = async (req, res) => {
 
   // post creation in DB
 
-  const postImage = req.file != null ? '.uploads/posts/' + fileName : '';
+  const postImage = req.file != null ? './uploads/posts/' + fileName : '';
 
   mysql.query(
     `INSERT INTO sn_posts (post_title, post_content , post_image, post_author)
@@ -104,29 +104,25 @@ module.exports.updatePost = async (req, res) => {
           } else {
             // debut save message BD
 
-      if (req.body.content == '')
-        return res.status(400).json({
-          message: `Le contenu à modifier est vide`,
-        });
+            if (req.body.content == '')
+              return res.status(400).json({
+                message: `Le contenu à modifier est vide`,
+              });
 
-      mysql.query(
-        `UPDATE sn_posts SET  post_content = ?, post_update = NOW() where id_post = ?;`,
-        [`${req.body.content}`, idPost],
-        (error, result) => {
-          if (error) {
-            console.log(error);
-            res.status(400).json({ error });
-        
-          } else {
-            res.status(200).json({ message: 'Message ost modifié' });
-          }
-        }
-      ); //mysql query
-    
+            mysql.query(
+              `UPDATE sn_posts SET  post_content = ?, post_update = NOW() where id_post = ?;`,
+              [`${req.body.content}`, idPost],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                } else {
+                  res.status(200).json({ message: 'Message ost modifié' });
+                }
+              }
+            ); //mysql query
 
             // fin  save message BD
-
-           
           } //end if
         } catch (err) {
           res.status(400).json({ err });
@@ -136,15 +132,13 @@ module.exports.updatePost = async (req, res) => {
       }
     }
   );
-
-
 }; //end Post
 
 //--------------------------------------------------------------------------
 module.exports.deletePostImage = async (req, res, next) => {
   const userId = req.auth.userId;
   console.log('id author post = ' + userId);
-  const path = `${process.cwd()}\\client\\public\\uploads\\post\\`;
+  const path = `${process.cwd()}\\client\\public\\uploads\\posts\\`;
   console.log('path = ' + path);
 
   const idPost = req.params.id;
@@ -160,7 +154,7 @@ module.exports.deletePostImage = async (req, res, next) => {
         res.status(404).json({ message: 'Post non trouvé!' });
       } else {
         const idAuthor = post[0].post_author;
-        const pictureName = post[0].post_image.replace('./uploads/posts/', '');
+        const pictureName = post[0].post_image.replace('.uploads/posts/', '');
         console.log('id author récupéré = ' + idAuthor);
         console.log('nom image récupéré = ' + pictureName);
 
@@ -171,13 +165,18 @@ module.exports.deletePostImage = async (req, res, next) => {
             res.status(403).json({ error: 'User ID non autorisé!' });
           } else {
             const urlPicture = path + pictureName;
+            console.log('urlPicture = ' + urlPicture);
             //delete picture
             if (pictureName != '') {
               fs.unlink(urlPicture, (error) => {
-                if (error) return console.log('pas de photo à supprimer');
+                if (error)
+                  return res
+                    .status(400)
+                    .json({ message: 'pas de photo à supprimer' });
                 //supprimer lien BD
                 mysql.query(
-                  `UPDATE sn_posts SET post_image ='' WHERE id_post = ?;`,[idPost],
+                  `UPDATE sn_posts SET post_image ='' WHERE id_post = ?;`,
+                  [idPost],
                   (error, post) => {
                     if (error) {
                       console.log(error);
@@ -188,6 +187,10 @@ module.exports.deletePostImage = async (req, res, next) => {
                   }
                 );
               });
+            } else {
+              res
+                .status(400)
+                .json({ message: `pas d'image dans la base de données` });
             }
           }
         } catch (err) {
