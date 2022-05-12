@@ -265,11 +265,9 @@ module.exports.likePost = async (req, res) => {
         } else {
           const idAuthor = post[0].post_author;
           if (idAuthor === userId)
-            return res
-              .status(400)
-              .json({
-                message: `L'auteur du post n'est pas authorisé à aimer son post`,
-              });
+            return res.status(400).json({
+              message: `L'auteur du post n'est pas authorisé à aimer son post`,
+            });
           const likeKey = userId + '/' + idPost;
           console.log('like key= ' + likeKey);
 
@@ -312,6 +310,70 @@ VALUES(?,?, CONCAT(like_user,'/',like_post));`,
 }; //end likePost
 
 //--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
+module.exports.unlikePost = async (req, res) => {
+  try {
+    const idPost = req.params.id;
+    const userId = req.auth.userId;
+
+    mysql.query(
+      `SELECT * FROM sn_posts WHERE id_post = ?`,
+      [idPost],
+      (error, post) => {
+        if (error) {
+          console.log(error);
+          res.status(400).json({ error });
+        }
+        if (post.length === 0) {
+          res.status(404).json({ message: 'Post non trouvé!' });
+        } else {
+          const idAuthor = post[0].post_author;
+          if (idAuthor === userId)
+            return res.status(400).json({
+              message: `L'auteur du post n'est pas authorisé à aimer son post`,
+            });
+          const likeKey = userId + '/' + idPost;
+          console.log('like key= ' + likeKey);
+
+          mysql.query(
+            `SELECT like_key FROM sn_likes where like_key = ? ;`,
+            [likeKey],
+            (error, result) => {
+              if (error) {
+                console.log(error);
+                res.status(400).json({ error });
+              }
+
+              if (result.length === 0) {
+                res.status(400).json({
+                  message: 'like déjà supprimé',
+                });
+              } else {
+                mysql.query(
+                  `DELETE FROM sn_likes where like_key = ?;`,
+                  [likeKey],
+                  (error, result) => {
+                    if (error) {
+                      console.log(error);
+                      res.status(400).json({ error });
+                    } else {
+                      res.status(201).json({ message: 'like supprimé' });
+                    }
+                  }
+                );
+              }
+            }
+          ); //end 2nd sql query
+        }
+      }
+    ); //end 1st sql query
+  } catch (err) {
+    res.status(400).json({ err });
+  } //end try & catch
+}; //end likePost
+
+/*
+//--------------------------------------------------------------------------
 
 module.exports.Post = async (req, res) => {
   try {
@@ -326,3 +388,4 @@ module.exports.Post = async (req, res) => {
 }; //end Post
 
 //--------------------------------------------------------------------------
+*/

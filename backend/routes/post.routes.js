@@ -33,7 +33,7 @@ router.put('/:id', authMiddleware, postCtrl.updatePost );
 router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
 router.delete('/:id', authMiddleware, deletePostPicture, postCtrl.deletePost);
 router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
-//router.patch('/unlike-post/:id', postController.unlikePost);
+router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 
 //comments
 //router.patch('/comment-post/:id', postController.commentPost);
