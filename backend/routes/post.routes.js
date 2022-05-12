@@ -16,7 +16,7 @@ const router = express.Router();
 //Importation du controller
 
 const authCtrl = require('../controllers/auth_controllers');
-//const userCtrl = require('../controllers/user_controllers');
+const postCtrl = require('../controllers/post_controller');
 const uploadCtrl = require('../controllers/upload_controller');
 const authMiddleware = require('../middleware/auth_middleware');
 const multerProfil = require('../middleware/multer_profil');
@@ -24,28 +24,19 @@ const multerProfil = require('../middleware/multer_profil');
 //====================================================================
 //Création des routes
 
-//auth
+//post routes
 
-router.post('/signup', authCtrl.signup);
-router.post('/login', authCtrl.login);
+router.get('/', authMiddleware, postCtrl.readPost);
+//router.post('/', multerPost, postController.createPost);
+//router.put('/:id', postController.updatePost);
+//router.delete('/:id', postController.deletePost);
+//router.patch('/like-post/:id', postController.likePost);
+//router.patch('/unlike-post/:id', postController.unlikePost);
 
-//user
-
-router.get('/', authMiddleware, userCtrl.getAllUsers);
-router.get('/:id', authMiddleware, userCtrl.getUserInfo);
-router.put('/:id', authMiddleware, userCtrl.updateUserInfo);
-router.put('/security/:id', authMiddleware, userCtrl.updateUserPassword);
-router.delete('/:id', authMiddleware, userCtrl.deleteUser);
-router.post('/follow/:id', authMiddleware, userCtrl.follow);
-router.delete('/unfollow/:id', authMiddleware, userCtrl.unfollow);
-
-//upload
-router.post(
-  '/upload/:id',
-  authMiddleware,
-  multerProfil,
-  uploadCtrl.uploadProfil
-); //file = name of the field in req.body
+//comments
+//router.patch('/comment-post/:id', postController.commentPost);
+//router.patch('/edit-comment-post/:id', postController.editCommentPost);
+//router.patch('/delete-comment-post/:id', postController.deleteCommentPost);
 
 //====================================================================
 //exportation du router

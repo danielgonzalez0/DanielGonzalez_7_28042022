@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `sn_likes`(
 	`id_like` MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
 	`like_user` SMALLINT(6) UNSIGNED NOT NULL, 
 	`like_post` MEDIUMINT(9) UNSIGNED NOT NULL,
+	`like_key` VARCHAR(20),
 
 	PRIMARY KEY (`id_like`),
 	FOREIGN KEY (`like_user`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,
@@ -111,7 +112,7 @@ VALUES('Daniel', 'Gonzalez','CEO', 'daniel@xyz.com', 'Azerty1',CONCAT(user_first
 */
 
 INSERT INTO `sn_posts`(`post_title`,`post_content`, `post_image`, `post_author`)
-VALUES('1er post', 'bonjour le monde', '', 1);
+VALUES('2er post', 'Allez au travail!!!!', '', 2);
 
 /*
 ----------------------------------------------------------------------------------------------------------------
