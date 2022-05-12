@@ -29,9 +29,9 @@ const deletePostPicture = require('../middleware/delete_post_picture');
 
 router.get('/', authMiddleware, postCtrl.readPost);
 router.post('/', authMiddleware, multerPost, postCtrl.createPost);
-router.put('/:id', authMiddleware,postCtrl.updatePost );
+router.put('/:id', authMiddleware, postCtrl.updatePost );
 router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
-//router.delete('/:id', postController.deletePost);
+router.delete('/:id', authMiddleware, deletePostPicture, postCtrl.deletePost);
 //router.patch('/like-post/:id', postController.likePost);
 //router.patch('/unlike-post/:id', postController.unlikePost);
 

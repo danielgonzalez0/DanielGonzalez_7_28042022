@@ -35,19 +35,10 @@ module.exports = async (req, res, next) => {
             if (pictureName != '') {
               fs.unlink(urlPicture, (error) => {
                 if (error) return console.log('pas de photo à supprimer');
-                //supprimer lien BD
-                mysql.query(
-                  `UPDATE sn_posts SET post_image ='' WHERE id_post = ?;`,[idPost],
-                  (error, post) => {
-                    if (error) {
-                      console.log(error);
-                      res.status(400).json({ error });
-                    } else {
-                      res.status(200).json({ message: 'image supprimée' });
-                    }
-                  }
-                );
+                next();
               });
+            } else {
+              next();
             }
           }
         } catch (err) {

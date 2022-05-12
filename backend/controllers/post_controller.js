@@ -117,7 +117,7 @@ module.exports.updatePost = async (req, res) => {
                   console.log(error);
                   res.status(400).json({ error });
                 } else {
-                  res.status(200).json({ message: 'Message ost modifié' });
+                  res.status(200).json({ message: 'Message modifié' });
                 }
               }
             ); //mysql query
@@ -201,6 +201,88 @@ module.exports.deletePostImage = async (req, res, next) => {
     }
   );
 }; //end Post
+//--------------------------------------------------------------------------
+
+module.exports.deletePost = async (req, res) => {
+
+//select user_author
+  const idPost = req.params.id;
+  mysql.query(
+    `SELECT * FROM sn_posts WHERE id_post = ?`,
+    [idPost],
+    (error, post) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      }
+      if (post.length === 0) {
+        res.status(404).json({ message: 'Post non trouvé!' });
+      } else {
+        const idAuthor = post[0].post_author;
+        console.log('id author récupéré = ' + idAuthor);
+        try {
+          if (idAuthor != req.auth.userId) {
+            res.status(403).json({ error: 'User ID non autorisé!' });
+          } else {
+            //debut code
+            mysql.query(
+              `DELETE FROM sn_posts where id_post = ?;`,
+              [idPost],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                
+                } else {
+                  res
+                    .status(200)
+                    .json({ message: 'Post supprimé' });
+                }
+              }
+            ); //mysql query
+
+            //fin du code
+          } //end if
+        } catch (err) {
+          res.status(400).json({ err });
+        } //end try & catch
+
+      
+      }
+    }
+  );//end 1st sql query
+
+
+    /*
+  try {
+    const id = req.params.id;
+    if (id != req.auth.userId) {
+      res.status(403).json({ error: 'User ID non autorisé!' });
+    } else {
+      //début code
+      mysql.query(
+        `DELETE FROM sn_users where id_user = ?;`,
+        [id],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+          }
+          if (result.length === 0) {
+            res.status(404).json({ message: 'Utilisateur non trouvé!' });
+          } else {
+            res.status(200).json({ message: 'Compte utilisateur supprimé' });
+          }
+        }
+      ); //mysql query
+
+      //fin du code
+    }
+  } catch (err) {
+    res.status(500).json({ err });
+  } //end try & catch
+  */
+}; //end deletePost
 //--------------------------------------------------------------------------
 module.exports.Post = async (req, res) => {
   try {
