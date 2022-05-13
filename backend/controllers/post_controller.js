@@ -428,7 +428,7 @@ VALUES(?, ?, ?, ?);`,
 //--------------------------------------------------------------------------
 
 module.exports.editCommentPost = async (req, res) => {
-  //select user_author
+  //select comment
   const idComment = req.params.id;
   mysql.query(
     `SELECT * FROM sn_comments WHERE id_comment = ?`,
@@ -479,8 +479,52 @@ module.exports.editCommentPost = async (req, res) => {
       }
     }
   );
-}; //end Post
+}; //end editCommentPost
 
+//--------------------------------------------------------------------------
+module.exports.deleteCommentPost = async (req, res) => {
+  //select Comment
+  const idComment = req.params.id;
+  mysql.query(
+    `SELECT * FROM sn_comments WHERE id_comment = ?`,
+    [idComment],
+    (error, comment) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      }
+      if (comment.length === 0) {
+        res.status(404).json({ message: 'Commentaire non trouvé!' });
+      } else {
+        const idAuthor = comment[0].comment_author;
+        console.log('id author récupéré = ' + idAuthor);
+        try {
+          if (idAuthor != req.auth.userId) {
+            res.status(403).json({ error: 'User ID non autorisé!' });
+          } else {
+            //debut code
+            mysql.query(
+              `DELETE FROM sn_comments where id_comment = ?;`,
+              [idComment],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                } else {
+                  res.status(200).json({ message: 'Commentaire supprimé' });
+                }
+              }
+            ); //mysql query
+
+            //fin du code
+          } //end if
+        } catch (err) {
+          res.status(400).json({ err });
+        } //end try & catch
+      }
+    }
+  ); //end 1st sql query
+}; //end deleteCommentPost
 //--------------------------------------------------------------------------
 /*
 

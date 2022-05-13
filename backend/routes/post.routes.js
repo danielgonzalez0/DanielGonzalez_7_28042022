@@ -11,7 +11,6 @@ const router = express.Router();
 //====================================================================
 //Importation des middlewares
 
-
 //====================================================================
 //Importation du controller
 
@@ -28,7 +27,7 @@ const deletePostPicture = require('../middleware/delete_post_picture');
 
 router.get('/', authMiddleware, postCtrl.readPost);
 router.post('/', authMiddleware, multerPost, postCtrl.createPost);
-router.put('/:id', authMiddleware, postCtrl.updatePost );
+router.put('/:id', authMiddleware, postCtrl.updatePost);
 router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
 router.delete('/:id', authMiddleware, deletePostPicture, postCtrl.deletePost);
 router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
@@ -37,7 +36,11 @@ router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 //comments
 router.post('/comment-post/:id', authMiddleware, postCtrl.createComment);
 router.put('/edit-comment-post/:id', authMiddleware, postCtrl.editCommentPost);
-//router.delete('/delete-comment-post/:id', postController.deleteCommentPost);
+router.delete(
+  '/delete-comment-post/:id',
+  authMiddleware,
+  postCtrl.deleteCommentPost
+);
 
 //====================================================================
 //exportation du router
