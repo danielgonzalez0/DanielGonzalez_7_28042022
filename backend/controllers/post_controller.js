@@ -309,7 +309,6 @@ VALUES(?,?, CONCAT(like_user,'/',like_post));`,
   } //end try & catch
 }; //end likePost
 
-
 //--------------------------------------------------------------------------
 module.exports.unlikePost = async (req, res) => {
   try {
@@ -414,7 +413,7 @@ VALUES(?, ?, ?, ?);`,
                     console.log(error);
                     res.status(400).json({ error });
                   } else {
-                    res.status(201).json({ message: 'Post créé' });
+                    res.status(201).json({ message: 'Commentaire créé' });
                   }
                 }
               ); // mysql query
@@ -424,7 +423,63 @@ VALUES(?, ?, ?, ?);`,
       }
     }
   );
-};; //end createComment
+}; //end createComment
+
+//--------------------------------------------------------------------------
+
+module.exports.editCommentPost = async (req, res) => {
+  //select user_author
+  const idComment = req.params.id;
+  mysql.query(
+    `SELECT * FROM sn_comments WHERE id_comment = ?`,
+    [idComment],
+    (error, comment) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      }
+      if (comment.length === 0) {
+        res.status(404).json({ message: 'Commentaire non trouvé!' });
+      } else {
+        const idAuthor = comment[0].comment_author;
+        console.log('id author récupéré = ' + idAuthor);
+        //debut code
+
+        try {
+          if (idAuthor != req.auth.userId) {
+            res.status(403).json({ error: 'User ID non autorisé!' });
+          } else {
+            // debut save message BD
+
+            if (req.body.content == '')
+              return res.status(400).json({
+                message: `Le contenu à modifier est vide`,
+              });
+
+            mysql.query(
+              `UPDATE sn_comments SET  comment_content = ?, comment_update = NOW() where id_comment = ?;`,
+              [`${req.body.content}`, idComment],
+              (error, result) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).json({ error });
+                } else {
+                  res.status(200).json({ message: 'commentaire modifié' });
+                }
+              }
+            ); //mysql query
+
+            // fin  save message BD
+          } //end if
+        } catch (err) {
+          res.status(400).json({ err });
+        } //end try & catch
+
+        // fin code
+      }
+    }
+  );
+}; //end Post
 
 //--------------------------------------------------------------------------
 /*

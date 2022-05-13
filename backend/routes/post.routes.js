@@ -36,7 +36,7 @@ router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 
 //comments
 router.post('/comment-post/:id', authMiddleware, postCtrl.createComment);
-//router.put('/edit-comment-post/:id', postController.editCommentPost);
+router.put('/edit-comment-post/:id', authMiddleware, postCtrl.editCommentPost);
 //router.delete('/delete-comment-post/:id', postController.deleteCommentPost);
 
 //====================================================================
