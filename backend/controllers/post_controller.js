@@ -65,9 +65,9 @@ module.exports.createPost = async (req, res) => {
   const postImage = req.file != null ? './uploads/posts/' + fileName : '';
 
   mysql.query(
-    `INSERT INTO sn_posts (post_title, post_content , post_image, post_author)
+    `INSERT INTO sn_posts (post_content , post_image, post_author)
 VALUES(?, ?, ?, ?);`,
-    [`${req.body.title}`, `${req.body.content}`, `${postImage}`, `${userId}`],
+    [`${req.body.content}`, `${postImage}`, `${userId}`],
     (error, result) => {
       if (error) {
         console.log(error);
@@ -309,7 +309,7 @@ VALUES(?,?, CONCAT(like_user,'/',like_post));`,
   } //end try & catch
 }; //end likePost
 
-//--------------------------------------------------------------------------
+
 //--------------------------------------------------------------------------
 module.exports.unlikePost = async (req, res) => {
   try {
@@ -372,8 +372,63 @@ module.exports.unlikePost = async (req, res) => {
   } //end try & catch
 }; //end likePost
 
-/*
 //--------------------------------------------------------------------------
+
+module.exports.createComment = async (req, res) => {
+  const userId = req.auth.userId;
+  const idPost = req.params.id;
+  // user fullname
+  mysql.query(
+    `select user_fullname from sn_users where id_user = ?`,
+    [userId],
+    (error, userName) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      } else {
+        const userFullname = userName[0].user_fullname;
+        //check post exit
+        mysql.query(
+          `SELECT * FROM sn_posts WHERE id_post = ?`,
+          [idPost],
+          (error, post) => {
+            if (error) {
+              console.log(error);
+              res.status(400).json({ error });
+            }
+            if (post.length === 0) {
+              res.status(404).json({ message: 'Post non trouvé!' });
+            } else {
+              //comment creation
+              mysql.query(
+                `INSERT INTO sn_comments (comment_content , comment_author, comment_parent, comment_fullname)
+VALUES(?, ?, ?, ?);`,
+                [
+                  `${req.body.content}`,
+                  `${userId}`,
+                  `${idPost}`,
+                  `${userFullname}`,
+                ],
+                (error, result) => {
+                  if (error) {
+                    console.log(error);
+                    res.status(400).json({ error });
+                  } else {
+                    res.status(201).json({ message: 'Post créé' });
+                  }
+                }
+              ); // mysql query
+            }
+          }
+        ); // mysql query
+      }
+    }
+  );
+};; //end createComment
+
+//--------------------------------------------------------------------------
+/*
+
 
 module.exports.Post = async (req, res) => {
   try {

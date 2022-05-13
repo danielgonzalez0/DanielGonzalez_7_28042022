@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `sn_users`
 	`id_user` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT, 
 	`user_firstname` VARCHAR(65) NOT NULL, 
 	`user_lastname` VARCHAR(65) NOT NULL, 
-	`user_fullname` VARCHAR(130) UNIQUE,
+	`user_fullname` VARCHAR(130) NOT NULL UNIQUE,
 	`user_job` VARCHAR(130) NOT NULL,
 	`user_email`VARCHAR(65) NOT NULL UNIQUE, 
     `user_password` VARCHAR(255) NOT NULL, 
@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS `sn_users`
 
 
 	PRIMARY KEY(`id_user`)
+	P
 )
 ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `sn_posts`
 (
     `id_post` MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `post_title`VARCHAR(80) NOT NULL,
     `post_content`TEXT NOT NULL,
 	`post_image`VARCHAR(255),
     `post_author` SMALLINT(6) UNSIGNED NOT NULL, 
@@ -57,15 +57,16 @@ CREATE TABLE IF NOT EXISTS `sn_comments`
 (
     `id_comment` MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
     `comment_content`TEXT NOT NULL,
-	`comment_image`VARCHAR(80),
     `comment_author` SMALLINT(6) UNSIGNED NOT NULL, 
+	`comment_fullname` VARCHAR(130) NOT NULL,
 	`comment_parent` MEDIUMINT(9) UNSIGNED NOT NULL, 
 	`comment_registration` DATETIME DEFAULT NOW(),
 	`comment_update` DATETIME DEFAULT NOW(), 
 
     PRIMARY KEY (`id_comment`),
     FOREIGN KEY (`comment_author`) REFERENCES `sn_users`(`id_user`) ON DELETE CASCADE,
-	FOREIGN KEY (`comment_parent`) REFERENCES `sn_posts`(`id_post`) ON DELETE CASCADE
+	FOREIGN KEY (`comment_parent`) REFERENCES `sn_posts`(`id_post`) ON DELETE CASCADE,
+	FOREIGN KEY (`comment_fullname`) REFERENCES `sn_users`(`user_fullname`) ON UPDATE CASCADE
 	
 )
 
@@ -127,6 +128,6 @@ UPDATE `sn_posts`SET `post_author` = 1 WHERE id_post = 1;
 ----------------------------------------------------------------------------------------------------------------
 */
 
-INSERT INTO `sn_comments`(`comment_content`,`comment_author`, `comment_parent`)
-VALUES('1er commentaire',1,1);
+INSERT INTO `sn_comments`(`comment_content`,`comment_author`, `comment_parent`, `comment_fullname`)
+VALUES('1er commentaire',1,1,'Daniel Gonzalez');
 

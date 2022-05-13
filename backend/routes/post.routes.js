@@ -15,7 +15,6 @@ const router = express.Router();
 //====================================================================
 //Importation du controller
 
-const authCtrl = require('../controllers/auth_controllers');
 const postCtrl = require('../controllers/post_controller');
 const uploadCtrl = require('../controllers/upload_controller');
 const authMiddleware = require('../middleware/auth_middleware');
@@ -36,9 +35,9 @@ router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
 router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 
 //comments
-//router.patch('/comment-post/:id', postController.commentPost);
-//router.patch('/edit-comment-post/:id', postController.editCommentPost);
-//router.patch('/delete-comment-post/:id', postController.deleteCommentPost);
+router.post('/comment-post/:id', authMiddleware, postCtrl.createComment);
+//router.put('/edit-comment-post/:id', postController.editCommentPost);
+//router.delete('/delete-comment-post/:id', postController.deleteCommentPost);
 
 //====================================================================
 //exportation du router
