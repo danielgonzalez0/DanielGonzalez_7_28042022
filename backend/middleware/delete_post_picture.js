@@ -1,10 +1,14 @@
 const mysql = require('../database/mySQL_connection');
 const fs = require('fs');
+const chemin = require('path')
 //--------------------------------------------------------------------------
 module.exports = async (req, res, next) => {
   const userId = req.auth.userId;
   console.log('id author post = ' + userId);
-  const path = `${process.cwd()}\\client\\public\\uploads\\posts\\`;
+  const path = chemin.normalize(
+    __dirname + '/../../client/public/uploads/posts/'
+  );
+  // `${process.cwd()}\\client\\public\\uploads\\posts\\`;
   console.log('path = ' + path);
 
   const idPost = req.params.id;

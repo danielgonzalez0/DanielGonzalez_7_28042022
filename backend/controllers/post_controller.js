@@ -1,6 +1,7 @@
 const mysql = require('../database/mySQL_connection');
 const { uploadErrors } = require('../utils/errors_utils');
 const fs = require('fs');
+const chemin = require('path');
 
 //--------------------------------------------------------------------------
 module.exports.readPost = async (req, res) => {
@@ -30,7 +31,10 @@ module.exports.createPost = async (req, res) => {
 
   // save file in fs
   if (req.file != null) {
-    const path = `${process.cwd()}\\client\\public\\uploads\\posts\\`;
+    const path = chemin.normalize(
+      __dirname + '/../../client/public/uploads/posts/'
+    );
+    //`${process.cwd()}\\client\\public\\uploads\\posts\\`;
     try {
       if (
         req.file.mimetype != 'image/jpeg' &&
@@ -138,7 +142,10 @@ module.exports.updatePost = async (req, res) => {
 module.exports.deletePostImage = async (req, res, next) => {
   const userId = req.auth.userId;
   console.log('id author post = ' + userId);
-  const path = `${process.cwd()}\\client\\public\\uploads\\posts\\`;
+  const path = chemin.normalize(
+    __dirname + '/../../client/public/uploads/posts/'
+  );
+  // `${process.cwd()}\\client\\public\\uploads\\posts\\`;
   console.log('path = ' + path);
 
   const idPost = req.params.id;

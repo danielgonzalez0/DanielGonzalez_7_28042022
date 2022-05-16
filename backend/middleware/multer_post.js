@@ -19,7 +19,7 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({
   //répertoire de destination
   destination: (req, file, callback) => {
-    callback(null, `${__dirname}/../client/public/uploads/posts/`);
+    callback(null, `${__dirname}/../../client/public/uploads/posts/`);
   }, // end destination
 
   //nom du fichier téléchargé

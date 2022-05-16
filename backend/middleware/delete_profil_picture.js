@@ -1,8 +1,12 @@
 const mysql = require('../database/mySQL_connection');
 const fs = require('fs');
+const chemin = require('path')
 //--------------------------------------------------------------------------
 module.exports = async (req, res, next) => {
-  const path = `${process.cwd()}\\client\\public\\uploads\\profil\\`;
+  const path = chemin.normalize(
+    __dirname + '/../../client/public/uploads/profil/'
+  );
+  // `${process.cwd()}\\client\\public\\uploads\\profil\\`;
   console.log('path = ' + path);
   // get filename
   try {
