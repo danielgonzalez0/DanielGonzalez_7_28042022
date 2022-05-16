@@ -526,20 +526,23 @@ module.exports.deleteCommentPost = async (req, res) => {
   ); //end 1st sql query
 }; //end deleteCommentPost
 //--------------------------------------------------------------------------
-/*
 
-
-module.exports.Post = async (req, res) => {
+module.exports.readComment = async (req, res) => {
   try {
-    const id = req.params.id;
-    if (id != req.auth.userId) {
-      res.status(403).json({ error: 'User ID non autorisé!' });
-    } else {
-    } //end if
+    mysql.query(
+      `SELECT * FROM sn_comments ORDER BY comment_update DESC;`,
+      (error, result) => {
+        if (error) {
+          console.log(error);
+          res.status(400).json({ error });
+        } else {
+          res.status(200).json({ result });
+        }
+      }
+    );
   } catch (err) {
-    res.status(400).json({ err });
-  } //end try & catch
-}; //end Post
+    res.status(500).json({ err });
+  }
+}; //end readComment
 
 //--------------------------------------------------------------------------
-*/

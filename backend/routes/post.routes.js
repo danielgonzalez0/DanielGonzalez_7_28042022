@@ -34,6 +34,7 @@ router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
 router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 
 //comments
+router.get('/comment-post', authMiddleware, postCtrl.readComment);
 router.post('/comment-post/:id', authMiddleware, postCtrl.createComment);
 router.put('/edit-comment-post/:id', authMiddleware, postCtrl.editCommentPost);
 router.delete(
