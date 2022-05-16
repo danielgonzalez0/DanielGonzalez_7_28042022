@@ -70,7 +70,7 @@ module.exports.createPost = async (req, res) => {
 
   mysql.query(
     `INSERT INTO sn_posts (post_content , post_image, post_author)
-VALUES(?, ?, ?, ?);`,
+VALUES(?, ?, ?);`,
     [`${req.body.content}`, `${postImage}`, `${userId}`],
     (error, result) => {
       if (error) {
@@ -161,7 +161,7 @@ module.exports.deletePostImage = async (req, res, next) => {
         res.status(404).json({ message: 'Post non trouvé!' });
       } else {
         const idAuthor = post[0].post_author;
-        const pictureName = post[0].post_image.replace('.uploads/posts/', '');
+        const pictureName = post[0].post_image.replace(`./uploads/posts/`, '');
         console.log('id author récupéré = ' + idAuthor);
         console.log('nom image récupéré = ' + pictureName);
 

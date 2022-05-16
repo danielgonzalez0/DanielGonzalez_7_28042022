@@ -1,6 +1,6 @@
 const mysql = require('../database/mySQL_connection');
 const fs = require('fs');
-const chemin = require('path')
+const chemin = require('path');
 //--------------------------------------------------------------------------
 module.exports = async (req, res, next) => {
   const userId = req.auth.userId;
@@ -24,7 +24,7 @@ module.exports = async (req, res, next) => {
         res.status(404).json({ message: 'Post non trouvé!' });
       } else {
         const idAuthor = post[0].post_author;
-        const pictureName = post[0].post_image.replace('./uploads/posts/', '');
+        const pictureName = post[0].post_image.replace(`./uploads/posts/`, '');
         console.log('id author récupéré = ' + idAuthor);
         console.log('nom image récupéré = ' + pictureName);
 
