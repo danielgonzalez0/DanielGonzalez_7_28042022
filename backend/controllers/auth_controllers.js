@@ -48,7 +48,7 @@ VALUES('${firstname}','${lastname}' ,'${job}', '${email}', '${hash}', CONCAT(use
 exports.login = (req, res, next) => {
   const { email, password } = req.body; //destructuring
   mysql.query(
-    `SELECT id_user, user_email, user_password, user_fullname FROM sn_users where user_email = '${email}';`,
+    `SELECT id_user, user_email, user_password, user_fullname , user_admin FROM sn_users where user_email = '${email}';`,
     (error, result) => {
       if (error) {
         console.log(error);
@@ -64,6 +64,7 @@ exports.login = (req, res, next) => {
           userPassword: result[0].user_password,
           userName: result[0].user_fullname,
           userMail: result[0].user_email,
+          userAdmin: result[0].user_admin,
         };
 
         bcrypt

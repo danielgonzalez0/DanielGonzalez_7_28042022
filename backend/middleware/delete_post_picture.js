@@ -31,9 +31,7 @@ module.exports = async (req, res, next) => {
         //debut code
         // get filename
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             const urlPicture = path + pictureName;
             //delete picture
             if (pictureName != '') {
@@ -44,6 +42,8 @@ module.exports = async (req, res, next) => {
             } else {
               next();
             }
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' });
           }
         } catch (err) {
           res.status(500).json({ err });

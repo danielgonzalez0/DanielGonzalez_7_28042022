@@ -100,12 +100,11 @@ module.exports.updatePost = async (req, res) => {
       } else {
         const idAuthor = post[0].post_author;
         console.log('id author récupéré = ' + idAuthor);
+        console.log('code admin = ' + req.auth.userAdmin);
         //debut code
 
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             // debut save message BD
 
             if (req.body.content == '')
@@ -127,6 +126,8 @@ module.exports.updatePost = async (req, res) => {
             ); //mysql query
 
             // fin  save message BD
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' });
           } //end if
         } catch (err) {
           res.status(400).json({ err });
@@ -168,9 +169,7 @@ module.exports.deletePostImage = async (req, res, next) => {
         //debut code
         // get filename
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             const urlPicture = path + pictureName;
             console.log('urlPicture = ' + urlPicture);
             //delete picture
@@ -199,6 +198,8 @@ module.exports.deletePostImage = async (req, res, next) => {
                 .status(400)
                 .json({ message: `pas d'image dans la base de données` });
             }
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' });
           }
         } catch (err) {
           res.status(500).json({ err });
@@ -227,9 +228,7 @@ module.exports.deletePost = async (req, res) => {
         const idAuthor = post[0].post_author;
         console.log('id author récupéré = ' + idAuthor);
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             //debut code
             mysql.query(
               `DELETE FROM sn_posts where id_post = ?;`,
@@ -245,7 +244,9 @@ module.exports.deletePost = async (req, res) => {
             ); //mysql query
 
             //fin du code
-          } //end if
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' }); //end if
+          }
         } catch (err) {
           res.status(400).json({ err });
         } //end try & catch
@@ -453,9 +454,7 @@ module.exports.editCommentPost = async (req, res) => {
         //debut code
 
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             // debut save message BD
 
             if (req.body.content == '')
@@ -477,6 +476,8 @@ module.exports.editCommentPost = async (req, res) => {
             ); //mysql query
 
             // fin  save message BD
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' });
           } //end if
         } catch (err) {
           res.status(400).json({ err });
@@ -506,9 +507,7 @@ module.exports.deleteCommentPost = async (req, res) => {
         const idAuthor = comment[0].comment_author;
         console.log('id author récupéré = ' + idAuthor);
         try {
-          if (idAuthor != req.auth.userId) {
-            res.status(403).json({ error: 'User ID non autorisé!' });
-          } else {
+          if (idAuthor === req.auth.userId || req.auth.userAdmin === 1) {
             //debut code
             mysql.query(
               `DELETE FROM sn_comments where id_comment = ?;`,
@@ -524,6 +523,8 @@ module.exports.deleteCommentPost = async (req, res) => {
             ); //mysql query
 
             //fin du code
+          } else {
+            res.status(403).json({ error: 'User ID non autorisé!' });
           } //end if
         } catch (err) {
           res.status(400).json({ err });
