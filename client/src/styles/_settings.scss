@@ -1,19 +1,19 @@
 @font-face {
-  font-family: "font-1";
+  font-family: 'font-1';
   src: url(./assets/fonts/Roboto-Light.ttf);
 }
 @font-face {
-  font-family: "font-2";
+  font-family: 'font-2';
   src: url(./assets/fonts/Roboto-Regular.ttf);
 }
 @font-face {
-  font-family: "font-3";
+  font-family: 'font-3';
   src: url(./assets/fonts/Roboto-Bold.ttf);
 }
 
-$font-1: "font-1", sans-serif;
-$font-2: "font-2", serif;
-$font-3: "font-3", serif;
+$font-1: 'font-1', sans-serif;
+$font-2: 'font-2', serif;
+$font-3: 'font-3', serif;
 
 $color-1: #ff7b77;
 $color-2: #ffd0c4;
@@ -44,7 +44,7 @@ input,
 textarea {
   resize: none;
   border-radius: 20px;
-  width: 270px;
+  width: 90%;
   font-family: $font-1;
   background: $white;
 }
@@ -54,7 +54,7 @@ textarea {
   }
 }
 button,
-input[type="submit"] {
+input[type='submit'] {
   background: $color-2;
   color: $color-1;
   font-family: $font-3;
@@ -71,7 +71,7 @@ input[type="submit"] {
     color: $color-2;
   }
 }
-input[type="checkbox"] {
+input[type='checkbox'] {
   box-shadow: none;
   width: 20px;
   margin: 10px 0;
