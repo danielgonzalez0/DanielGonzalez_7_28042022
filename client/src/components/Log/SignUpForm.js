@@ -19,7 +19,7 @@ const SignUpForm = () => {
   //JSX
   return (
     <>
-      <spam className="form-container__spam">Inscription</spam>
+      <span className="form-container__spam">Inscription</span>
       <form action="" onSubmit={handleRegister} id="sign-up-form">
         <div className="form__top__container">
           {/* champ firstname */}

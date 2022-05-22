@@ -5,11 +5,13 @@ const express = require('express');
 const morgan = require('morgan');
 const mysql = require('./database/mySQL_connection');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 //====================================================================
 //importation des routeurs
 const userRoutes = require('./routes/user.routes');
 const postRoutes = require('./routes/post.routes');
+const { requireAuth } = require('./middleware/requireAuth');
 
 //====================================================================
 //Importation du module "path" pour gérer chemin des fichiers
@@ -32,7 +34,8 @@ app.use(cookieParser());
 //mise en place des headers pour éviter bloquant du CORS
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
@@ -46,6 +49,13 @@ app.use((req, res, next) => {
 
 //====================================================================
 //configuration des routes
+
+//jwt
+app.post('/jwtid', requireAuth, (req, res) => {
+  res.status(200).json(res.locals.user);
+});
+
+//routes
 
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);

@@ -31,6 +31,8 @@ const deleteProfilPicture = require('../middleware/delete_profil_picture');
 router.post('/signup', authCtrl.signup);
 router.post('/login', authCtrl.login);
 
+
+
 //user
 
 router.get('/', authMiddleware, userCtrl.getAllUsers);

@@ -10,7 +10,7 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="login___log-container">
-        <Log />
+        <Log signin={false} signup={true} />
         <div className="login__img-container">
           <img src="./img/login.jpg" alt="log" />
         </div>

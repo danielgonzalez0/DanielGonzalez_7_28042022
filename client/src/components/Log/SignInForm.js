@@ -1,19 +1,49 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const SignInForm = () => {
-  //kook
+  //hook
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   //logique
   const handleLogin = (e) => {
     e.preventDefault();
+    //querySelector
+    const emailError = document.querySelector('.email.error');
+    const passwordError = document.querySelector('.password.error');
+
+    //axios
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_URL}api/user/login`,
+      withCredentials: true,
+      data: {
+        email,
+        password,
+      },
+    }) //end axios
+      .then((res) => {
+        if (res.data.errors) {
+          emailError.innerHTML = res.data.errors.email;
+          passwordError.innerHTML = res.data.errors.password;
+        } else {
+          window.location = '/';
+          //save token in localstorage
+          console.log(res);
+          console.log(res.data.accessToken);
+          localStorage.setItem('accessToken', res.data.accessToken);
+        }
+      }) //end then
+      .catch((err) => {
+        console.log(err);
+      }); //catch
   }; // end handleLogin
 
   //JSX
   return (
     <>
-      <spam className="form-container__spam">Connexion</spam>
+      <span className="form-container__spam">Connexion</span>
       <form action="" onSubmit={handleLogin} id="sign-up-form">
         {/*input email*/}
         <label htmlFor="email"></label>
