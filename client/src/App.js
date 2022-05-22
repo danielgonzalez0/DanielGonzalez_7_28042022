@@ -25,7 +25,7 @@ const App = () => {
         .catch((err) => console.log('pas de token')); //end catch
     };
     fetchToken();
-  }, []);
+  }, [token]);
   //JSX
 
   return (

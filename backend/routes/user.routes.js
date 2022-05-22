@@ -33,6 +33,7 @@ router.post('/login', authCtrl.login);
 
 
 
+
 //user
 
 router.get('/', authMiddleware, userCtrl.getAllUsers);

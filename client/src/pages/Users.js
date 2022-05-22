@@ -1,10 +1,12 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 const Users = () => {
     return (
-        <div>
-        Annuaire Utilisateurs    
-        </div>
+      <>
+      <Navbar />
+        <h1>Annuaire Utilisateurs</h1>
+      </>
     );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import Log from '../components/Log';
+import Navbar from '../components/Navbar';
 
 const Login = () => {
   //hook
@@ -8,6 +9,8 @@ const Login = () => {
 
   //JSX
   return (
+        <>
+      <Navbar />
     <div className="login-page">
       <div className="login___log-container">
         <Log signin={false} signup={true} />
@@ -16,6 +19,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
