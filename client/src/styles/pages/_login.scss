@@ -1,4 +1,5 @@
-.login-page {
+.login-page,
+.profil-page {
   margin: 80px auto 0;
   max-width: 1200px;
 } //end login-page
@@ -8,10 +9,9 @@
   display: grid;
   grid-template-columns: 60% 40%;
   //background-color: $color-2;// a retirer
-    @media screen and(max-width: 885px) {
-      grid-template-columns: 1fr;
-    }
-
+  @media screen and(max-width: 885px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .login__img-container {
