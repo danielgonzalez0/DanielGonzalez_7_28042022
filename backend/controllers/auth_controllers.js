@@ -8,6 +8,8 @@ const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
+const { signUpErrors } = require('../utils/errors_utils');
 const maxAge = 12 * 60 * 60000; // correspond à 12h en mms
 
 //==========================================================================
@@ -21,25 +23,38 @@ function generateAccessToken(user) {
 
 exports.signup = (req, res, next) => {
   const { firstname, lastname, job, email, password } = req.body; //destructuring
-  //hashage MDP
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      //création nouvel utilisateur
-      mysql.query(
-        `INSERT INTO sn_users(user_firstname, user_lastname, user_job,  user_email, user_password, user_fullname)
+  if (!validator.isEmail(email)) {
+    res.status(400).json({ error: 'Adresse mail non valide' });}
+
+   else if (firstname === '' || lastname === '' || job === '') {
+      res
+        .status(400)
+        .json({
+          error: 'les champs prénom, nom et fonction sont obligatoires',
+        });
+    }
+   else {
+    //hashage MDP
+    bcrypt
+      .hash(password, 10)
+      .then((hash) => {
+        //création nouvel utilisateur
+        mysql.query(
+          `INSERT INTO sn_users(user_firstname, user_lastname, user_job,  user_email, user_password, user_fullname)
 VALUES('${firstname}','${lastname}' ,'${job}', '${email}', '${hash}', CONCAT(user_firstname,' ',user_lastname));`,
-        (error, result) => {
-          if (error) {
-            console.log(error);
-            res.status(400).json({ error }); // mettre en place message d'erreurs
-          } else {
-            res.status(201).json({ message: 'Utilisateur créé' });
+          (error, result) => {
+            if (error) {
+              console.log(error.sqlMessage);
+              const errors = signUpErrors(error);
+              res.status(400).json({ errors }); // mettre en place message d'erreurs
+            } else {
+              res.status(201).json({ message: 'Utilisateur créé' });
+            }
           }
-        }
-      );
-    }) //end then hash
-    .catch((error) => res.status(500).json({ error })); //end catch hash
+        );
+      }) //end then hash
+      .catch((error) => res.status(500).json({ error })); //end catch hash
+  } //end if
 }; //end middleware signup
 
 //==========================================================================
@@ -55,7 +70,7 @@ exports.login = (req, res, next) => {
         res.status(400).json({ error });
       }
       if (result.length === 0) {
-        res.status(404).json({ message: 'Utilisateur non trouvé!' });
+        res.status(404).json({ error: 'Utilisateur non trouvé!' });
       } else {
         // si Utilisateur trouvé, comparer le MDP requête avec MDP user avec bcrypt
 

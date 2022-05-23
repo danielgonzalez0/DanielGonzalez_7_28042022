@@ -24,19 +24,32 @@ const SignInForm = () => {
       },
     }) //end axios
       .then((res) => {
-        if (res.data.errors) {
-          emailError.innerHTML = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password;
-        } else {
-          window.location = '/';
-          //save token in localstorage
-          console.log(res);
-          console.log(res.data.accessToken);
-          localStorage.setItem('accessToken', res.data.accessToken);
-        }
+        emailError.innerHTML = '';
+        passwordError.innerHTML = '';
+        window.location = '/';
+        //save token in localstorage
+        console.log(res);
+        console.log(res.data.accessToken);
+        localStorage.setItem('accessToken', res.data.accessToken);
       }) //end then
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
+        switch (err.response.data.error) {
+          case 'Utilisateur non trouvé!':
+            emailError.innerHTML = err.response.data.error;
+            passwordError.innerHTML = '';
+            break;
+          case 'Mot de passe incorrect!':
+            emailError.innerHTML = '';
+            passwordError.innerHTML = err.response.data.error;
+            break;
+          default:
+            emailError.innerHTML = '';
+            passwordError.innerHTML = '';
+            break;
+        }
+
+        // emailError.innerHTML = err.response.data;
       }); //catch
   }; // end handleLogin
 

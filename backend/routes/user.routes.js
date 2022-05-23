@@ -22,13 +22,14 @@ const uploadCtrl = require('../controllers/upload_controller');
 const authMiddleware = require('../middleware/auth_middleware');
 const multerProfil = require('../middleware/multer_profil');
 const deleteProfilPicture = require('../middleware/delete_profil_picture');
+const password = require('../middleware/password');
 
 //====================================================================
 //Création des routes
 
 //auth
 
-router.post('/signup', authCtrl.signup);
+router.post('/signup', password, authCtrl.signup);
 router.post('/login', authCtrl.login);
 
 

@@ -11,24 +11,21 @@ const Home = () => {
 
   //JSX
   return (
-    <div className="profil-page">
-      {uid ? (
-        <>
-          <Navbar />
+    <>
+      <Navbar />
+      <div className="profil-page">
+        {uid ? (
           <h1>UPDATE PAGE</h1>
-        </>
-      ) : (
-        <>
-          <Navbar />
+        ) : (
           <div className="login___log-container">
             <Log signin={false} signup={true} />
             <div className="login__img-container">
               <img src="./img/login.jpg" alt="log" />
             </div>
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
