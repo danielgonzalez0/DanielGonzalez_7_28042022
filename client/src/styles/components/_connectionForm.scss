@@ -71,7 +71,7 @@
   .form__top__container {
     display: flex;
     justify-content: space-between;
-    margin: 0 4%;
+    margin: 0 5% 0 3%;
     column-gap: 8px;
 
     @media screen and(max-width: 680px) {
@@ -83,7 +83,10 @@
     }
 
     input {
-      flex: 0 0 calc(50% - 2% - 11px);
+      flex: 0 0 calc(50% - 3%);
+      @media screen and(max-width: 680px) {
+        margin-top: 25px;
+      }
     }
   } //end top_container
 } //end connect
@@ -94,4 +97,7 @@
   margin: 20px 0;
   font-size: 2em;
   color: $color-1;
+  @media screen and(max-width: 680px) {
+    margin-bottom: 0;
+  }
 } //end spam
