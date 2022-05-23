@@ -39,3 +39,18 @@ The string should have a maximum length of 20 characters
 
   return errors;
 };
+
+//-------------------------------------------------------------
+// errors regexName
+module.exports.regexField = (field) => {
+  let regexField = /^[A-Z][a-zA-ZÀ-ÿ -]{3,30}$/;
+  let errorField = '';
+  let messageErreur = `Le Champ ${field} doit commencer par une majuscule, contenir entre 3 et 30 caractères et ne doit pas contenir de chiffres ou de caractères spéciaux hors "-" et " ".`;
+  let testField = regexField.test(field);
+  if (testField) {
+    return true;
+  } else {
+   error = messageErreur;
+    return false  ;
+  } //end if
+}; //end regexName

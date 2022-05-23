@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-const { signUpErrors } = require('../utils/errors_utils');
+const { signUpErrors, regexField } = require('../utils/errors_utils');
 const maxAge = 12 * 60 * 60000; // correspond à 12h en mms
 
 //==========================================================================
@@ -23,17 +23,21 @@ function generateAccessToken(user) {
 
 exports.signup = (req, res, next) => {
   const { firstname, lastname, job, email, password } = req.body; //destructuring
-  if (!validator.isEmail(email)) {
-    res.status(400).json({ error: 'Adresse mail non valide' });}
-
-   else if (firstname === '' || lastname === '' || job === '') {
-      res
-        .status(400)
-        .json({
-          error: 'les champs prénom, nom et fonction sont obligatoires',
-        });
-    }
-   else {
+  if (firstname === '' || lastname === '' || job === '') {
+    res.status(400).json({
+      error: 'les champs prénom, nom et fonction sont obligatoires',
+    });
+  } else if (
+    !regexField(firstname) ||
+    !regexField(lastname) ||
+    !regexField(job)
+  ) {
+    res.status(400).json({
+      error: `Les Champs Prénom, Nom et fonction doivent commencer par une majuscule, contenir entre 3 et 30 caractères, et ne doivent pas contenir de chiffres ou de caractères spéciaux hors "-" et " ".`,
+    });
+  } else if (!validator.isEmail(email)) {
+    res.status(400).json({ error: 'Adresse mail non valide' });
+  } else {
     //hashage MDP
     bcrypt
       .hash(password, 10)
@@ -46,7 +50,7 @@ VALUES('${firstname}','${lastname}' ,'${job}', '${email}', '${hash}', CONCAT(use
             if (error) {
               console.log(error.sqlMessage);
               const errors = signUpErrors(error);
-              res.status(400).json({ errors }); // mettre en place message d'erreurs
+              res.status(400).json({ errors });
             } else {
               res.status(201).json({ message: 'Utilisateur créé' });
             }

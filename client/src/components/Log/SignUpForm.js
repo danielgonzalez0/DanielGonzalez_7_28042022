@@ -20,6 +20,7 @@ const SignUpForm = () => {
     //query selector
 
     const fullnameError = document.querySelector('.fullname.error');
+    const jobError = document.querySelector('.job.error');
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
     const passwordConfirmError = document.querySelector(
@@ -32,6 +33,7 @@ const SignUpForm = () => {
     passwordError.innerHTML = '';
     fullnameError.innerHTML = '';
     emailError.innerHTML = '';
+    jobError.innerHTML = '';
 
     if (password !== controlPassword) {
       passwordConfirmError.innerHTML = 'Les mots de passe ne correspondent pas';
@@ -81,8 +83,10 @@ const SignUpForm = () => {
             emailError.innerHTML = err.response.data.errors.email;
             passwordError.innerHTML = err.response.data.errors.password;
             console.log(err);
-          } else if (err.response.data.error) {
+          } else if (err.response.data.error == 'Adresse mail non valide') {
             emailError.innerHTML = err.response.data.error;
+          } else {
+            jobError.innerHTML = err.response.data.error;
           }
         }); //end catch
     }
@@ -139,7 +143,7 @@ const SignUpForm = () => {
               value={job}
               placeholder="Fonction dans l'Entreprise"
             />
-            <div className="lastname error"></div>
+            <div className="job error"></div>
             <br />
             {/* champ email*/}
             <label htmlFor="email"></label>
