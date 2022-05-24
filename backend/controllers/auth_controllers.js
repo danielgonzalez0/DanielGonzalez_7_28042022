@@ -33,10 +33,11 @@ exports.signup = (req, res, next) => {
     !regexField(job)
   ) {
     res.status(400).json({
-      error: `Les Champs Prénom, Nom et fonction doivent commencer par une majuscule, contenir entre 3 et 30 caractères, et ne doivent pas contenir de chiffres ou de caractères spéciaux hors "-" et " ".`,
+      error: `Les Champs Prénom, Nom et fonction doivent commencer par une majuscule, contenir entre 4 et 30 caractères, et ne doivent pas contenir de chiffres ou de caractères spéciaux hors "-" et " ".`,
     });
   } else if (!validator.isEmail(email)) {
     res.status(400).json({ error: 'Adresse mail non valide' });
+    console.log(res.response);
   } else {
     //hashage MDP
     bcrypt
@@ -57,7 +58,14 @@ VALUES('${firstname}','${lastname}' ,'${job}', '${email}', '${hash}', CONCAT(use
           }
         );
       }) //end then hash
-      .catch((error) => res.status(500).json({ error })); //end catch hash
+      .catch((error) => {
+        console.log(error);
+        res
+          .status(500)
+          .json({
+            error: 'code 500: le serveur a rencontré un problème inattendu',
+          });
+      }); //end catch hash
   } //end if
 }; //end middleware signup
 

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { UidContext } from './components/AppContext';
 import Routes from './components/Routes';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getUser } from './actions/user.actions';
 
 const App = () => {
   //hook
   const [uid, setUid] = useState(null);
   const [token, setToken] = useState(null);
+  const dispatch = useDispatch();
   //logique
   useEffect(() => {
     const fetchToken = async () => {
@@ -16,7 +19,6 @@ const App = () => {
         method: 'post',
         url: `${process.env.REACT_APP_API_URL}jwtid`,
         withCredentials: true,
-        headers: { Authorization: token },
         data: {
           token: localStorage.getItem('accessToken'),
         },
@@ -25,7 +27,11 @@ const App = () => {
         .catch((err) => console.log('pas de token')); //end catch
     };
     fetchToken();
-  }, [token]);
+
+    if (uid && token) {
+      dispatch(getUser(uid, token));
+    }
+  }, [uid, token, dispatch]);
   //JSX
 
   return (

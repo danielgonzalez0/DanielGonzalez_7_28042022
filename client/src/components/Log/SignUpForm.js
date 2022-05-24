@@ -73,6 +73,9 @@ const SignUpForm = () => {
               case 'The string should not have spaces':
                 passwordError.innerHTML = `Le mot de passe ne doit pas avoir d'espace`;
                 break;
+              case 'The string should have a minimum of 1 digit':
+                passwordError.innerHTML = `Le mot de passe doit contenir au minimum un chiffre`;
+                break;
 
               default:
                 passwordError.innerHTML = err.response.data.error[0].message;
