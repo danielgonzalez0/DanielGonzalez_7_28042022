@@ -1,11 +1,12 @@
 const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
+const { signUpErrors, regexField } = require('../utils/errors_utils');
 
 //--------------------------------------------------------------------------
 module.exports.getAllUsers = async (req, res) => {
   try {
     mysql.query(
-      `SELECT id_user, user_fullname, user_registration, user_picture FROM sn_users where ?;`,
+      `SELECT id_user, user_fullname, user_registration, user_picture, user_job FROM sn_users where ?;`,
       ['1'],
       (error, result) => {
         if (error) {
@@ -29,7 +30,7 @@ module.exports.getUserInfo = async (req, res) => {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
       mysql.query(
-        `SELECT id_user,user_firstname, user_lastname, user_fullname, user_registration, user_picture FROM sn_users where id_user = ?;`,
+        `SELECT id_user,user_firstname, user_lastname, user_fullname, user_registration, user_picture, user_job, user_admin FROM sn_users where id_user = ?;`,
         [id],
         (error, result) => {
           if (error) {
@@ -57,30 +58,42 @@ module.exports.updateUserInfo = async (req, res) => {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
       //début code
-      const { lastName, firstName, job } = req.body; //destructuring
-      if (lastName == '' || firstName == '' || job == '')
+      const { lastname, firstname, job } = req.body; //destructuring
+      if (lastname == '' || firstname == '' || job == '') {
         return res.status(400).json({
-          message: `Les champs d'informations personnelles doivent être remplies`,
+          error: 'les champs prénom, nom et fonction sont obligatoires',
         });
-
-      mysql.query(
-        `UPDATE sn_users SET  user_firstname = ?,
+      } else if (
+        !regexField(firstname) ||
+        !regexField(lastname) ||
+        !regexField(job)
+      ) {
+        res.status(400).json({
+          error: `Les Champs Prénom, Nom et fonction doivent commencer par une majuscule, contenir entre 4 et 30 caractères, et ne doivent pas contenir de chiffres ou de caractères spéciaux hors "-" et " ".`,
+        });
+      } else {
+        mysql.query(
+          `UPDATE sn_users SET  user_firstname = ?,
         user_lastname = ?,
         user_fullname = CONCAT(user_firstname,' ',user_lastname),
         user_job = ? where id_user = ?;`,
-        [`${firstName}`, `${lastName}`, `${job}`, id],
-        (error, result) => {
-          if (error) {
-            console.log(error);
-            res.status(400).json({ error });
+          [`${firstname}`, `${lastname}`, `${job}`, id],
+          (error, result) => {
+            if (error) {
+              console.log(error.sqlMessage);
+              const errors = signUpErrors(error);
+              res.status(400).json({ errors });
+            }
+            if (result.length === 0) {
+              res.status(404).json({ message: 'Utilisateur non trouvé!' });
+            } else {
+              res
+                .status(200)
+                .json({ message: 'Données personnelles modifiées' });
+            }
           }
-          if (result.length === 0) {
-            res.status(404).json({ message: 'Utilisateur non trouvé!' });
-          } else {
-            res.status(200).json({ message: 'Données personnelles modifiées' });
-          }
-        }
-      ); //mysql query
+        ); //mysql query
+      }
     } //end if
     //fin code
   } catch (err) {

@@ -1,0 +1,193 @@
+.profil-container {
+  margin: auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profil-container-top {
+  width: 100%;
+  background-color: $color-2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 25px 25px 0 0;
+  height: 150px;
+}
+
+.profil-container-bottom {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0 0 25px 25px;
+  padding: 100px 0 50px 0;
+
+  .profil-container-p {
+    font-size: 1.1rem;
+    font-family: $font-2;
+    color: grey;
+    margin: 20px 0;
+  }
+}
+
+.profil-picture {
+  position: relative;
+  bottom: -60px;
+
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    border: solid 2px white;
+  }
+}
+
+.popup-profil-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  position: fixed;
+  animation: popup 0.5s forwards;
+
+  @keyframes popup {
+    to {
+      backdrop-filter: blur(2px);
+    }
+  }
+
+  .modal {
+    margin: auto 0;
+    width: 500px;
+    position: relative;
+    transform: translate(-100%);
+    background: $white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 2px rgba(131, 130, 130, 0.356);
+    overflow: auto;
+    transform: scaleY(0);
+    transform-origin: center;
+    animation: modal 1s forwards;
+
+    h3 {
+      min-width: 200px;
+      margin: 20px 0;
+    }
+
+    p {
+      margin: 20px 0;
+      color: $color-3;
+    }
+
+    @keyframes modal {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .cross {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      transition: 0.1s;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.07);
+      }
+    }
+
+    ul {
+      display: flex;
+      justify-content: space-around;
+
+      li {
+        color: $color-1;
+        font-size: 1.1rem;
+        text-align: center;
+        padding-top: 5px;
+        border-radius: 5px;
+        width: 20%;
+        height: 30px;
+        font-family: $font-3;
+        transition: 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-2;
+          background-color: $color-1;
+        }
+      }
+    }
+    .profil-photo-section {
+      display: flex;
+      justify-content: space-around;
+      img {
+        height: 75px;
+        width: 75px;
+        border-radius: 20px;
+        object-fit: cover;
+        box-shadow: 0 0 2px rgba(51, 51, 51, 0.376);
+      }
+      button {
+        align-self: center;
+        flex: 0 0 30%;
+        font-size: 1.1rem;
+        padding: 0;
+        height: 30px;
+        background-color: $color-4;
+        &:hover {
+          color: $color-2;
+          background: $color-1;
+          transform: translateX(2px);
+        }
+      }
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      padding-left: 15px;
+    }
+
+    input[type='text'],
+    input[type='password'] {
+      padding: 14px 20px;
+      width: 100%;
+      margin: 0;
+      font-size: 1.1rem;
+      font-family: $font-2;
+      border-radius: 20px;
+      height: 40px;
+      box-shadow: 0 0 3px rgba(51, 51, 51, 0.2);
+
+      &:focus {
+        box-shadow: 0 0 3px rgba(51, 51, 51, 0.4);
+      }
+    }
+
+    input[type='submit'] {
+      width: 100%;
+      background: $color-4;
+      border-radius: 5px;
+      margin-right: 6px;
+
+      &:hover {
+        color: $color-2;
+        background: $color-1;
+        transform: translateX(2px);
+      }
+    }
+  }
+}

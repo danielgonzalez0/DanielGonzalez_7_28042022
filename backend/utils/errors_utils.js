@@ -33,7 +33,6 @@ module.exports.regexField = (field) => {
   if (testField) {
     return true;
   } else {
-    error = messageErreur;
     return false;
   } //end if
 }; //end regexName
