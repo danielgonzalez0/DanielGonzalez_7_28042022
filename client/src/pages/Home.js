@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Log from '../components/Log';
 import { UidContext } from '../components/AppContext';
 import Navbar from '../components/Navbar';
+import Navigation from '../components/Navigation';
 
 const Home = () => {
   //hook
@@ -13,6 +14,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
+      <Navigation />
       <div className="profil-page">
         {uid ? (
           <h1>UPDATE PAGE</h1>

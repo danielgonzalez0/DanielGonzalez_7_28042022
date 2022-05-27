@@ -8,7 +8,7 @@ const Navbar = () => {
   //hook
   const uid = useContext(UidContext);
   const userData = useSelector((state) => state.userReducer);
-  
+
   //logique
 
   //jsx
@@ -29,7 +29,8 @@ const Navbar = () => {
             <li></li>
             <li className="welcome">
               <NavLink to="/profil">
-                <h5>Bienvenue {userData.user_fullname}</h5>
+                <img src={userData.user_picture} alt="image-profil" />
+                <h5>{userData.user_fullname}</h5>
               </NavLink>
             </li>
             <Logout />

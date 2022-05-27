@@ -1,7 +1,6 @@
 const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
 
-
 //--------------------------------------------------------------------------
 module.exports.getAllUsers = async (req, res) => {
   try {
@@ -330,4 +329,3 @@ module.exports.unfollow = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end follow
-
