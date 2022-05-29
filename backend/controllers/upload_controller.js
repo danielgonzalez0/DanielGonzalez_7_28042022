@@ -2,7 +2,7 @@
 const mysql = require('../database/mySQL_connection');
 const fs = require('fs');
 const { uploadErrors } = require('../utils/errors_utils');
-const chemin = require('path')
+const chemin = require('path');
 
 //-------------------------------------------------------------
 module.exports.uploadProfil = async (req, res) => {
@@ -17,7 +17,7 @@ module.exports.uploadProfil = async (req, res) => {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
       mysql.query(
-        `SELECT user_firstname FROM sn_users where id_user = ?;`,
+        `SELECT user_firstname, user_lastname FROM sn_users where id_user = ?;`,
         [id],
         (error, result) => {
           if (error) {
@@ -28,30 +28,31 @@ module.exports.uploadProfil = async (req, res) => {
             res.status(404).json({ message: 'Utilisateur non trouvé!' });
           } else {
             console.log('firstname récupéré');
-            const fileName = result[0].user_firstname + '.jpg';
+            const fileName =
+              result[0].user_firstname + result[0].user_lastname + '.jpg';
             console.log(fileName);
 
             //début code
             // console.log(req.file);
             if (!req.file)
-            return res.status(400).json({message: "Image manquante"})
-              try {
-                if (
-                  req.file.mimetype != 'image/jpeg' &&
-                  req.file.mimetype != 'image/png' &&
-                  req.file.mimetype != 'image/jpg'
-                )
-                  throw Error('Invalid file');
-                //test size
-                if (req.file.size > 500000) throw Error('max size');
-              } catch (err) {
-                const errors = uploadErrors(err);
-                console.log(errors);
-                fs.unlink(`${path}${req.file.filename}`, function (errors) {
-                  if (errors) console.log('ERROR: ' + errors);
-                }); // end fs.unlink
-                return res.status(201).json(errors);
-              } //end try & catch
+              return res.status(400).json({ message: 'Image manquante' });
+            try {
+              if (
+                req.file.mimetype != 'image/jpeg' &&
+                req.file.mimetype != 'image/png' &&
+                req.file.mimetype != 'image/jpg'
+              )
+                throw Error('Invalid file');
+              //test size
+              if (req.file.size > 500000) throw Error('max size');
+            } catch (err) {
+              const errors = uploadErrors(err);
+              console.log(errors);
+              fs.unlink(`${path}${req.file.filename}`, function (errors) {
+                if (errors) console.log('ERROR: ' + errors);
+              }); // end fs.unlink
+              return res.status(201).json(errors);
+            } //end try & catch
 
             // file path creation
 
@@ -99,5 +100,3 @@ module.exports.uploadProfil = async (req, res) => {
 }; //end uploadProfil
 
 //-------------------------------------------------------------
-
-

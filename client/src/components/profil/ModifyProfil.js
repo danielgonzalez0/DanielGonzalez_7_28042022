@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateInfo } from '../../actions/user.actions';
 
 const ModifyProfil = () => {
   //hook
@@ -8,9 +8,18 @@ const ModifyProfil = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [job, setJob] = useState('');
+  const token = localStorage.getItem('accessToken');
+  const dispatch = useDispatch();
 
   //logique
-  const handleModify = () => {};
+  const handleModify = async (e) => {
+    e.preventDefault();
+    const fullnameError = document.querySelector('.fullname.error');
+    const jobError = document.querySelector('.job.error');
+    fullnameError.innerHTML = '';
+    jobError.innerHTML = '';
+    dispatch(updateInfo(firstname, lastname, job, userData.id_user, token));
+  };
 
   //JSX
   return (
@@ -37,6 +46,7 @@ const ModifyProfil = () => {
           value={lastname}
           placeholder={userData.user_lastname}
         />
+        <div className="fullname error"></div>
 
         {/* champ job */}
 

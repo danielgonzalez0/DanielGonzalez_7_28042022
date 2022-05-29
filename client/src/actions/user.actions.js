@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { handleErrors } from '../Utils';
 
 export const GET_USER = 'GET_USER';
 export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const DELETE_PROFIL_PICTURE = 'DELETE_PROFIL_PICTURE';
+export const UPDATE_INFO = 'UPDATE_INFO';
 
 export const getUser = (uid, token) => {
   return (dispatch) => {
@@ -58,5 +60,29 @@ export const deleteProfilPicture = (id, token) => {
           });
       })
       .catch((err) => console.log(err));
+  };
+};
+
+export const updateInfo = (firstname, lastname, job, id, token) => {
+  return (dispatch) => {
+    return axios
+      .put(
+        `${process.env.REACT_APP_API_URL}api/user/${id}`,
+        {
+          firstname,
+          lastname,
+          job,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        dispatch({
+          type: UPDATE_INFO,
+          payload: { firstname, lastname, job },
+        });
+      })
+      .catch((err) => handleErrors(err));
   };
 };

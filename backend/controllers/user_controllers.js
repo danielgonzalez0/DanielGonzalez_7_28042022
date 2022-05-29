@@ -83,8 +83,7 @@ module.exports.updateUserInfo = async (req, res) => {
               console.log(error.sqlMessage);
               const errors = signUpErrors(error);
               res.status(400).json({ errors });
-            }
-            if (result.length === 0) {
+            } else if (result.length === 0) {
               res.status(404).json({ message: 'Utilisateur non trouvé!' });
             } else {
               res

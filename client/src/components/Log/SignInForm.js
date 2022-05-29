@@ -28,8 +28,8 @@ const SignInForm = () => {
         passwordError.innerHTML = '';
         window.location = '/';
         //save token in localstorage
-       // console.log(res);
-      //  console.log(res.data.accessToken);
+        // console.log(res);
+        //  console.log(res.data.accessToken);
         localStorage.setItem('accessToken', res.data.accessToken);
       }) //end then
       .catch((err) => {

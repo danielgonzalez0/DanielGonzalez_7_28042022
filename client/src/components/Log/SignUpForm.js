@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import SignInForm from './SignInForm';
+import { handleErrors } from '../../Utils';
 
 const SignUpForm = () => {
   //hook
@@ -57,40 +58,7 @@ const SignUpForm = () => {
         .catch((err) => {
           console.log(err);
           console.log(Array.isArray(err.response.data.error));
-          if (Array.isArray(err.response.data.error)) {
-            switch (err.response.data.error[0].message) {
-              case 'The string should have a minimum length of 8 characters' ||
-                'The string should have a maximum length of 20 characters':
-                passwordError.innerHTML =
-                  'Le mot de passe doit contenir entre 8 et 20 caractères sans espace';
-                break;
-              case 'The string should have a minimum of 1 uppercase letter' ||
-                'The string should have a minimum of 1 lowercase letter' ||
-                'The string should have a minimum of 1 digit':
-                passwordError.innerHTML =
-                  'Le mot de passe doit contenir au minimum un chiffre, une majuscule et une minuscule, sans espace';
-                break;
-              case 'The string should not have spaces':
-                passwordError.innerHTML = `Le mot de passe ne doit pas avoir d'espace`;
-                break;
-              case 'The string should have a minimum of 1 digit':
-                passwordError.innerHTML = `Le mot de passe doit contenir au minimum un chiffre`;
-                break;
-
-              default:
-                passwordError.innerHTML = err.response.data.error[0].message;
-                break;
-            }
-          } else if (err.response.data.errors) {
-            fullnameError.innerHTML = err.response.data.errors.fullname;
-            emailError.innerHTML = err.response.data.errors.email;
-            passwordError.innerHTML = err.response.data.errors.password;
-            console.log(err);
-          } else if (err.response.data.error == 'Adresse mail non valide') {
-            emailError.innerHTML = err.response.data.error;
-          } else {
-            jobError.innerHTML = err.response.data.error;
-          }
+          handleErrors(err);
         }); //end catch
     }
   }; //end handleRegister

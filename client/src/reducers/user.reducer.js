@@ -1,6 +1,7 @@
 import {
   DELETE_PROFIL_PICTURE,
   GET_USER,
+  UPDATE_INFO,
   UPLOAD_PICTURE,
 } from '../actions/user.actions';
 
@@ -21,6 +22,15 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         user_picture: action.payload,
+      };
+
+    case UPDATE_INFO:
+      return {
+        ...state,
+        user_firstname: action.payload.firstname,
+        user_lastname: action.payload.lastname,
+        user_job: action.payload.job,
+        user_fullname: `${action.payload.firstname} ${action.payload.lastname}`,
       };
 
     default:

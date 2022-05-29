@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 
 const ModifyPassword = () => {
   //hook
-  const userData = useSelector((state) => state.userReducer);
+  //const userData = useSelector((state) => state.userReducer);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -19,8 +18,8 @@ const ModifyPassword = () => {
         <label htmlFor="password"></label>
         <input
           type="password"
-          name="password"
-          id="password"
+          name="oldPassword"
+          id="oldPassword"
           onChange={(e) => setOldPassword(e.target.value)}
           value={oldPassword}
           placeholder=" Ancien Mot de Passe"
@@ -31,8 +30,8 @@ const ModifyPassword = () => {
         <label htmlFor="password"></label>
         <input
           type="password"
-          name="password"
-          id="password"
+          name="newPassword"
+          id="newPassword"
           onChange={(e) => setNewPassword(e.target.value)}
           value={newPassword}
           placeholder=" Nouveau Mot de Passe"
