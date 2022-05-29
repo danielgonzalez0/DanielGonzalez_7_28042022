@@ -1,6 +1,6 @@
 const mysql = require('../database/mySQL_connection');
 const fs = require('fs');
-const chemin = require('path')
+const chemin = require('path');
 //--------------------------------------------------------------------------
 module.exports = async (req, res, next) => {
   const path = chemin.normalize(
@@ -36,6 +36,7 @@ module.exports = async (req, res, next) => {
               fs.unlink(urlPicture, (error) => {
                 if (error)
                   return console.log('pas de photo de profil à supprimer');
+
                 next();
               });
             } else {
@@ -49,4 +50,3 @@ module.exports = async (req, res, next) => {
     res.status(500).json({ err });
   }
 }; //end deleteProfilePicture
-

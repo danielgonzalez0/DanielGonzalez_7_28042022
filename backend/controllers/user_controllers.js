@@ -342,3 +342,30 @@ module.exports.unfollow = async (req, res) => {
     res.status(500).json({ err });
   } //end try & catch
 }; //end follow
+
+//--------------------------------------------------------------------------
+module.exports.deletePictureUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (id != req.auth.userId) {
+      res.status(403).json({ error: 'User ID non autorisé!' });
+    } else {
+      //début code
+      mysql.query(
+        `UPDATE sn_users SET user_picture = './uploads/profil/random-user.png' where id_user = ?;`,
+        [id],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            res.status(400).json({ error });
+          }
+        }
+      );
+      res.status(200).json({ message: 'photo de profil supprimée' });
+    }
+    //fin du code
+  } catch (err) {
+    res.status(500).json({ err });
+  } //end try & catch
+}; //end deletePictureUser
+//--------------------------------------------------------------------------

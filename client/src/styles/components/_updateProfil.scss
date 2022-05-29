@@ -132,25 +132,63 @@
     }
     .profil-photo-section {
       display: flex;
-      justify-content: space-around;
-      img {
-        height: 75px;
-        width: 75px;
-        border-radius: 20px;
-        object-fit: cover;
-        box-shadow: 0 0 2px rgba(51, 51, 51, 0.376);
-      }
-      button {
-        align-self: center;
+      justify-content: space-between;
+      .photo-section-left-part {
         flex: 0 0 30%;
-        font-size: 1.1rem;
-        padding: 0;
-        height: 30px;
-        background-color: $color-4;
-        &:hover {
-          color: $color-2;
-          background: $color-1;
-          transform: translateX(2px);
+        position: relative;
+        img {
+          height: 100px;
+          width: 100px;
+          border-radius: 20px;
+          object-fit: cover;
+          box-shadow: 0 0 2px rgba(51, 51, 51, 0.376);
+        }
+        .crossPic {
+          position: absolute;
+          transition: 0.1s;
+          cursor: pointer;
+          right: 15px;
+          &:hover {
+            transform: scale(1.07);
+          }
+        }
+      }
+      form {
+        position: relative;
+        flex: 0 0 65%;
+        height: 90px;
+
+        label {
+          align-self: center;
+          font-size: 1.1rem;
+          padding: 10px 20px;
+          height: 40px;
+          margin: 0;
+          text-align: center;
+          background-color: $color-4;
+          color: $color-1;
+          font-family: $font-3;
+          border-radius: 20px;
+          cursor: pointer;
+          &:hover {
+            color: $color-2;
+            background: $color-1;
+            transform: translateX(2px);
+          }
+        }
+        input[type='file'] {
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          z-index: -4;
+          cursor: pointer;
+          padding: 10px 20px;
+        }
+
+        input[type='submit'] {
+          border-radius: 20px;
+          margin-bottom: 10px;
         }
       }
     }

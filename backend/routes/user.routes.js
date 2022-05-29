@@ -32,9 +32,6 @@ const password = require('../middleware/password');
 router.post('/signup', password, authCtrl.signup);
 router.post('/login', authCtrl.login);
 
-
-
-
 //user
 
 router.get('/', authMiddleware, userCtrl.getAllUsers);
@@ -42,6 +39,12 @@ router.get('/:id', authMiddleware, userCtrl.getUserInfo);
 router.put('/:id', authMiddleware, userCtrl.updateUserInfo);
 router.put('/security/:id', authMiddleware, userCtrl.updateUserPassword);
 router.delete('/:id', authMiddleware, deleteProfilPicture, userCtrl.deleteUser);
+router.delete(
+  '/profil/pic/:id',
+  authMiddleware,
+  deleteProfilPicture,
+  userCtrl.deletePictureUser
+);
 router.post('/follow/:id', authMiddleware, userCtrl.follow);
 router.delete('/unfollow/:id', authMiddleware, userCtrl.unfollow);
 

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import DeleteAccount from './DeleteAccount';
 import ModifyPassword from './ModifyPassword';
 import ModifyProfil from './ModifyProfil';
+import UploadImg from './UploadImg';
 
 const UpdateProfil = () => {
   //hook
@@ -50,12 +51,7 @@ const UpdateProfil = () => {
               </ul>
               {popupContain === 'profil' && (
                 <div className="Profil-contain">
-                  <h3>Photo de Profil</h3>
-                  <div className="profil-photo-section">
-                    <img src={userData.user_picture} alt="pic-profil" />
-                    <button>Supprimer</button>
-                    <button>Modifier</button>
-                  </div>
+                  <UploadImg />
                   <h3>Informations Personnelles</h3>
                   <ModifyProfil />
                 </div>
