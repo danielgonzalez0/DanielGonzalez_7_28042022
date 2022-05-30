@@ -16,8 +16,10 @@ const ModifyProfil = () => {
     e.preventDefault();
     const fullnameError = document.querySelector('.fullname.error');
     const jobError = document.querySelector('.job.error');
+    const success = document.querySelector('.success');
     fullnameError.innerHTML = '';
     jobError.innerHTML = '';
+    success.innerHTML = '';
     dispatch(updateInfo(firstname, lastname, job, userData.id_user, token));
   };
 
@@ -63,6 +65,7 @@ const ModifyProfil = () => {
         <div className="job error"></div>
         <br />
         <input type="submit" value="Enregistrer" />
+        <div className="success"></div>
       </form>
     </div>
   );

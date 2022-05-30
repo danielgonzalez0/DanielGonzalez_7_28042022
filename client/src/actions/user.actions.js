@@ -83,6 +83,8 @@ export const updateInfo = (firstname, lastname, job, id, token) => {
           type: UPDATE_INFO,
           payload: { firstname, lastname, job },
         });
+        const success = document.querySelector('.success');
+        success.innerHTML = res.data.message;
       })
       .catch((err) => handleErrors(err));
   };

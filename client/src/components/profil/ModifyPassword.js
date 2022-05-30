@@ -31,7 +31,7 @@ const ModifyPassword = () => {
         {/* champ password */}
         <label htmlFor="password"></label>
         <input
-          type="text"
+          type="password"
           name="oldPassword"
           id="oldPassword"
           onChange={(e) => setOldPassword(e.target.value)}
@@ -43,7 +43,7 @@ const ModifyPassword = () => {
         {/* champ password */}
         <label htmlFor="password"></label>
         <input
-          type="text"
+          type="password"
           name="password"
           id="password"
           onChange={(e) => setPassword(e.target.value)}

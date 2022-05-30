@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { dateParser } from '../../Utils';
 import DeleteAccount from './DeleteAccount';
 import ModifyPassword from './ModifyPassword';
 import ModifyProfil from './ModifyProfil';
@@ -31,7 +32,7 @@ const UpdateProfil = () => {
           <h2>{userData.user_fullname}</h2>
           <div className="profil-container-p">
             <p>{userData.user_job}</p>
-            <p>Abonné :</p>
+            <p>Membre depuis le : {dateParser(userData.user_registration)}</p>
           </div>
           <button onClick={() => setProfilPopup(true)}>
             Modifier le profil
