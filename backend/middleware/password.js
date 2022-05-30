@@ -39,6 +39,7 @@ module.exports = (req, res, next) => {
   if (passwordSchema.validate(req.body.password)) {
     next();
   } else {
+    console.log(req.body.password);
     return res.status(400).json({
       error: passwordSchema.validate(req.body.password, { details: true }),
     });

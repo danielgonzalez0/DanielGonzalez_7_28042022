@@ -17,7 +17,7 @@ module.exports.uploadProfil = async (req, res) => {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
       mysql.query(
-        `SELECT user_firstname, user_lastname FROM sn_users where id_user = ?;`,
+        `SELECT id_user, user_firstname, user_lastname FROM sn_users where id_user = ?;`,
         [id],
         (error, result) => {
           if (error) {
@@ -28,8 +28,7 @@ module.exports.uploadProfil = async (req, res) => {
             res.status(404).json({ message: 'Utilisateur non trouvé!' });
           } else {
             console.log('firstname récupéré');
-            const fileName =
-              result[0].user_firstname + result[0].user_lastname + '.jpg';
+            const fileName = result[0].id_user + '.jpg';
             console.log(fileName);
 
             //début code

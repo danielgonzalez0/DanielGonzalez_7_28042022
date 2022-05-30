@@ -5,6 +5,7 @@ export const GET_USER = 'GET_USER';
 export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const DELETE_PROFIL_PICTURE = 'DELETE_PROFIL_PICTURE';
 export const UPDATE_INFO = 'UPDATE_INFO';
+export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
 export const getUser = (uid, token) => {
   return (dispatch) => {
@@ -84,5 +85,31 @@ export const updateInfo = (firstname, lastname, job, id, token) => {
         });
       })
       .catch((err) => handleErrors(err));
+  };
+};
+
+export const updatePassword = (oldPassword, password, id, token) => {
+  return (dispatch) => {
+    return axios
+      .put(
+        `${process.env.REACT_APP_API_URL}api/user/security/${id}`,
+        {
+          oldPassword,
+          password,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        dispatch({ type: UPDATE_PASSWORD });
+        console.log(res);
+        const success = document.querySelector('.success');
+        success.innerHTML = res.data.message;
+      })
+      .catch((err) => {
+        console.log(err);
+        handleErrors(err);
+      });
   };
 };

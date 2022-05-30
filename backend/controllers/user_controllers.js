@@ -1,6 +1,7 @@
 const mysql = require('../database/mySQL_connection');
 const bcrypt = require('bcrypt');
 const { signUpErrors, regexField } = require('../utils/errors_utils');
+const passwordValidator = require('password-validator');
 
 //--------------------------------------------------------------------------
 module.exports.getAllUsers = async (req, res) => {
@@ -108,10 +109,10 @@ module.exports.updateUserPassword = async (req, res) => {
       res.status(403).json({ error: 'User ID non autorisé!' });
     } else {
       //début code
-      const { oldPassword, newPassword } = req.body; //destructuring
-      if (oldPassword === newPassword)
+      const { oldPassword, password } = req.body; //destructuring
+      if (oldPassword === password)
         return res.status(400).json({
-          message: `Le nouveau mot de passe ne peut être identique au mot de passe actuel`,
+          error: `Le nouveau mot de passe ne peut être identique au mot de passe actuel`,
         });
 
       //check old password
@@ -125,7 +126,7 @@ module.exports.updateUserPassword = async (req, res) => {
             res.status(400).json({ error });
           }
           if (result.length === 0) {
-            res.status(404).json({ message: 'Utilisateur non trouvé!' });
+            res.status(404).json({ error: 'Utilisateur non trouvé!' });
           } else {
             // check old password
 
@@ -142,11 +143,8 @@ module.exports.updateUserPassword = async (req, res) => {
                     .json({ error: 'Ancien mot de passe incorrect!' });
                 }
                 console.log('ancien password check');
-
-                //hash new password
-
                 bcrypt
-                  .hash(newPassword, 10)
+                  .hash(password, 10)
                   .then((hash) => {
                     mysql.query(
                       `UPDATE sn_users SET user_password = ? where id_user = ?;`,
@@ -162,16 +160,21 @@ module.exports.updateUserPassword = async (req, res) => {
                       }
                     );
                   }) //end then hash
-                  .catch((error) => res.status(500).json({ error })); //end catch hash
+                  .catch((error) =>
+                    res.status(500).json({ error: 'erreur interne du serveur' })
+                  ); //end catch hash
+
                 //fin code
               }) //end then compare
-              .catch((err) => res.status(500).json({ err })); //end catch compare
+              .catch((error) => {
+                res.status(500).json({ error: 'erreur interne du serveur' });
+              }); //end catch compare
           }
         }
       ); // end query check old password
     }
-  } catch (err) {
-    res.status(500).json({ err });
+  } catch (error) {
+    res.status(500).json({ error: 'erreur interne du serveur' });
   } //end try & catch
 }; //end updateUserPassword
 
@@ -268,8 +271,8 @@ VALUES(?,?, CONCAT(id_follower,'/',id_following));`,
         }
       ); //end sql query
     } //end if
-  } catch (err) {
-    res.status(500).json({ err });
+  } catch (error) {
+    res.status(500).json({ error: 'erreur interne du serveur' });
   } //end try & catch
 }; //end follow
 

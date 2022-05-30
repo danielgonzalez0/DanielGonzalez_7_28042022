@@ -5,9 +5,9 @@ import { updateInfo } from '../../actions/user.actions';
 const ModifyProfil = () => {
   //hook
   const userData = useSelector((state) => state.userReducer);
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [job, setJob] = useState('');
+  const [firstname, setFirstname] = useState(userData.user_firstname);
+  const [lastname, setLastname] = useState(userData.user_lastname);
+  const [job, setJob] = useState(userData.user_job);
   const token = localStorage.getItem('accessToken');
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const ModifyProfil = () => {
           id="firstname"
           onChange={(e) => setFirstname(e.target.value)}
           value={firstname}
-          placeholder={userData.user_firstname}
+          placeholder={'Prénom'}
         />
         <br />
         {/* champ lastname */}
@@ -44,7 +44,7 @@ const ModifyProfil = () => {
           id="lastname"
           onChange={(e) => setLastname(e.target.value)}
           value={lastname}
-          placeholder={userData.user_lastname}
+          placeholder={'Nom de famille'}
         />
         <div className="fullname error"></div>
 
@@ -58,7 +58,7 @@ const ModifyProfil = () => {
           id="job"
           onChange={(e) => setJob(e.target.value)}
           value={job}
-          placeholder={userData.user_job}
+          placeholder={'Fonction'}
         />
         <div className="job error"></div>
         <br />

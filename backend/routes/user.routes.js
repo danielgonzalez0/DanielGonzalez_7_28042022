@@ -37,7 +37,12 @@ router.post('/login', authCtrl.login);
 router.get('/', authMiddleware, userCtrl.getAllUsers);
 router.get('/:id', authMiddleware, userCtrl.getUserInfo);
 router.put('/:id', authMiddleware, userCtrl.updateUserInfo);
-router.put('/security/:id', authMiddleware, userCtrl.updateUserPassword);
+router.put(
+  '/security/:id',
+  authMiddleware,
+  password,
+  userCtrl.updateUserPassword
+);
 router.delete('/:id', authMiddleware, deleteProfilPicture, userCtrl.deleteUser);
 router.delete(
   '/profil/pic/:id',
