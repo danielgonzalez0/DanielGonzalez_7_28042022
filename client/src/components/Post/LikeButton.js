@@ -1,18 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLikes } from '../../actions/like.actions';
+import { getLikes, likePost, unlikePost } from '../../actions/like.actions';
 import { isEmpty } from '../../Utils';
 import { UidContext } from '../AppContext';
 
 const LikeButton = ({ post }) => {
   //hook
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(0);
+  const [countLike, setCountLike] = useState(0);
   const uid = useContext(UidContext);
   const likeData = useSelector((state) => state.likeReducer);
   const token = localStorage.getItem('accessToken');
   const [loadLike, setLoadLike] = useState(true);
   const dispatch = useDispatch();
   //logique
+
+  const like = () => {
+    dispatch(likePost(token, post.id_post));
+  };
+
+  const unlike = () => {
+    dispatch(unlikePost(token, post.id_post));
+  };
 
   useEffect(() => {
     if (loadLike) {
@@ -21,26 +30,41 @@ const LikeButton = ({ post }) => {
     }
   }, [token, loadLike, dispatch]);
 
+  useEffect(() => {
+    if (!isEmpty(likeData[0])) {
+      setLiked(
+        likeData.filter((like) => like.like_key === `${uid}/${post.id_post}`)
+          .length
+      );
+    } else {
+      setLiked(0);
+    }
+  }, [likeData, uid, post.id_post, liked]);
 
   useEffect(() => {
-    if (!isEmpty(likeData[0]))
-      likeData.map((like) => {
-        if (like.like_post === post.id_post && like.like_user === uid)
-          return setLiked(true);
-        else return setLiked(false);
-      });
-  }, [likeData, uid, post.id_post]);
+    if (!isEmpty(likeData[0])) {
+      setCountLike(
+        likeData.filter((like) => like.like_post === post.id_post).length
+      );
+    } else {
+      setCountLike(0);
+    }
+  }, [likeData, uid, post.id_post, countLike]);
 
   //jsx
   return (
     <div className="like-container">
-      {liked === false && <img src="./img/icons/heart.svg" alt="like"></img>}
-      {liked && <img src="./img/icons/heart-filled.svg" alt="unlike"></img>}
-      <span>
-        {!isEmpty(likeData[0]) &&
-          likeData.filter((like) => like.like_post === post.id_post)
-            .length}
-      </span>
+      {liked === 0 && (
+        <img src="./img/icons/heart.svg" onClick={like} alt="like"></img>
+      )}
+      {liked !== 0 && (
+        <img
+          src="./img/icons/heart-filled.svg"
+          onClick={unlike}
+          alt="unlike"
+        ></img>
+      )}
+      <span>{countLike}</span>
     </div>
   );
 };

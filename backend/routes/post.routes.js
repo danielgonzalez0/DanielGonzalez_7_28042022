@@ -31,8 +31,8 @@ router.put('/:id', authMiddleware, postCtrl.updatePost);
 router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
 router.delete('/:id', authMiddleware, deletePostPicture, postCtrl.deletePost);
 router.get('/like-post', authMiddleware, postCtrl.getLike);
-router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
-router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
+router.get('/like-post/:id', authMiddleware, postCtrl.likePost);
+router.get('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 
 //comments
 router.get('/comment-post', authMiddleware, postCtrl.readComment);

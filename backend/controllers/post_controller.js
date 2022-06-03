@@ -288,11 +288,11 @@ module.exports.likePost = async (req, res) => {
         if (post.length === 0) {
           res.status(404).json({ message: 'Post non trouvé!' });
         } else {
-          const idAuthor = post[0].post_author;
+          /*const idAuthor = post[0].post_author;
           if (idAuthor === userId)
             return res.status(400).json({
               message: `L'auteur du post n'est pas authorisé à aimer son post`,
-            });
+            });*/
           const likeKey = userId + '/' + idPost;
           console.log('like key= ' + likeKey);
 
@@ -352,10 +352,10 @@ module.exports.unlikePost = async (req, res) => {
           res.status(404).json({ message: 'Post non trouvé!' });
         } else {
           const idAuthor = post[0].post_author;
-          if (idAuthor === userId)
+         /* if (idAuthor === userId)
             return res.status(400).json({
               message: `L'auteur du post n'est pas authorisé à aimer son post`,
-            });
+            });*/
           const likeKey = userId + '/' + idPost;
           console.log('like key= ' + likeKey);
 
