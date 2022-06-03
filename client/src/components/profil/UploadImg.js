@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProfilPicture, uploadPicture } from '../../actions/user.actions';
 
+
 const UploadImg = () => {
   //hook
   const userData = useSelector((state) => state.userReducer);
+  const error = useSelector((state) => state.errorReducer.userError);
   const [file, setFile] = useState();
   const dispatch = useDispatch();
   const token = localStorage.getItem('accessToken');
@@ -38,6 +40,7 @@ const UploadImg = () => {
             &#10005;
           </span>
         </div>
+
         <form action="" onSubmit={handlePicture} className="upload-pic">
           <label htmlFor="file">Changer d'image</label>
           <input
@@ -48,9 +51,11 @@ const UploadImg = () => {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <br />
-          <input type="submit" value="Enregistrer" />
+          <input type="submit" value="Valider image" />
         </form>
       </div>
+      <p>{error.maxSize}</p>
+      <p>{error.format}</p>
     </div>
   );
 };

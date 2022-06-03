@@ -6,6 +6,7 @@ export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const DELETE_PROFIL_PICTURE = 'DELETE_PROFIL_PICTURE';
 export const UPDATE_INFO = 'UPDATE_INFO';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
+export const GET_USER_ERRORS = 'GET_USER_ERRORS';
 
 export const getUser = (uid, token) => {
   return (dispatch) => {
@@ -27,6 +28,13 @@ export const uploadPicture = (data, id, token) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log(res);
+        if (res.data) {
+          dispatch({ type: GET_USER_ERRORS, payload: res.data });
+        } else {
+          dispatch({ type: GET_USER_ERRORS, payload: '' });
+        }
+
         return axios
           .get(`${process.env.REACT_APP_API_URL}api/user/${id}`, {
             headers: { Authorization: `Bearer ${token}` },

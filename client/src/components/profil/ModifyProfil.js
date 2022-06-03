@@ -64,7 +64,7 @@ const ModifyProfil = () => {
         />
         <div className="job error"></div>
         <br />
-        <input type="submit" value="Enregistrer" />
+        <input type="submit" value="Valider données" />
         <div className="success"></div>
       </form>
     </div>

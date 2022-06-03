@@ -13,13 +13,13 @@ const App = () => {
   //logique
   useEffect(() => {
     const fetchToken = async () => {
-      const localToken = localStorage.getItem('accessToken');
+    const localToken = localStorage.getItem('accessToken');
       setToken(localToken);
       await axios({
         method: 'post',
         url: `${process.env.REACT_APP_API_URL}jwtid`,
         withCredentials: true,
-        data: {
+     data: {
           token: localStorage.getItem('accessToken'),
         },
       }) //end axios

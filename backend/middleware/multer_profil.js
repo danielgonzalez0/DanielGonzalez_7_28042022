@@ -5,6 +5,7 @@
 
 const multer = require('multer');
 
+
 //====================================================================
 //création collection des différents types d'extensions (dictionnaire)
 const MIME_TYPES = {
@@ -15,6 +16,8 @@ const MIME_TYPES = {
 
 //====================================================================
 //      configuration gestion téléchargement des images entrantes
+
+
 
 const storage = multer.diskStorage({
   //répertoire de destination

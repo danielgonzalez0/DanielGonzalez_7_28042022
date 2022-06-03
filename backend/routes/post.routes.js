@@ -30,6 +30,7 @@ router.post('/', authMiddleware, multerPost, postCtrl.createPost);
 router.put('/:id', authMiddleware, postCtrl.updatePost);
 router.delete('/image/:id', authMiddleware, postCtrl.deletePostImage);
 router.delete('/:id', authMiddleware, deletePostPicture, postCtrl.deletePost);
+router.get('/like-post', authMiddleware, postCtrl.getLike);
 router.post('/like-post/:id', authMiddleware, postCtrl.likePost);
 router.delete('/unlike-post/:id', authMiddleware, postCtrl.unlikePost);
 

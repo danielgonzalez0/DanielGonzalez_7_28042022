@@ -32,7 +32,7 @@ module.exports.uploadProfil = async (req, res) => {
             console.log(fileName);
 
             //début code
-            // console.log(req.file);
+            //console.log(req.file);
             if (!req.file)
               return res.status(400).json({ message: 'Image manquante' });
             try {
@@ -43,10 +43,10 @@ module.exports.uploadProfil = async (req, res) => {
               )
                 throw Error('Invalid file');
               //test size
-              if (req.file.size > 500000) throw Error('max size');
+              if (req.file.size > 5000000) throw Error('max size');
             } catch (err) {
               const errors = uploadErrors(err);
-              console.log(errors);
+              console.log('errors ' + err.message);
               fs.unlink(`${path}${req.file.filename}`, function (errors) {
                 if (errors) console.log('ERROR: ' + errors);
               }); // end fs.unlink

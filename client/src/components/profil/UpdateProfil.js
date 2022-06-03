@@ -52,7 +52,7 @@ const UpdateProfil = () => {
               </ul>
               {popupContain === 'profil' && (
                 <div className="Profil-contain">
-                  <UploadImg />
+                <UploadImg />
                   <h3>Informations Personnelles</h3>
                   <ModifyProfil />
                 </div>

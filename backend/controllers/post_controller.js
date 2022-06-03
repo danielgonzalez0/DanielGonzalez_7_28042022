@@ -255,6 +255,23 @@ module.exports.deletePost = async (req, res) => {
   ); //end 1st sql query
 }; //end deletePost
 //--------------------------------------------------------------------------
+
+module.exports.getLike = async (req, res) => {
+  try {
+    mysql.query(`SELECT * FROM sn_likes;`, (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error });
+      } else {
+        res.status(200).json({ result });
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ err });
+  }
+}; //end getLike
+
+//--------------------------------------------------------------------------
 module.exports.likePost = async (req, res) => {
   try {
     const idPost = req.params.id;
