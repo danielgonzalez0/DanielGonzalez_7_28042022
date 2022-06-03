@@ -1,4 +1,3 @@
-import Log from '../components/Log';
 import Navbar from '../components/Navbar';
 import Navigation from '../components/Navigation';
 import Thread from '../components/Thread';

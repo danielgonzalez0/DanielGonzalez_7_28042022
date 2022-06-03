@@ -66,3 +66,23 @@ export const handleErrors = (err) => {
     jobError.innerHTML = err.response.data.error;
   }
 };
+
+export function prettyDate(time) {
+  var date = new Date((time || '').replace(/-/g, '/').replace(/[TZ]/g, ' ')),
+    diff = (new Date().getTime() - date.getTime()) / 1000,
+    day_diff = Math.floor(diff / 86400);
+
+  if (isNaN(day_diff) || day_diff < 0 || day_diff >= 31) return;
+
+  return (
+    (day_diff === 0 &&
+      ((diff < 60 && `à l'instant`) ||
+        (diff < 120 && 'il y a 1 minute') ||
+        (diff < 3600 && 'il y a ' + Math.floor(diff / 60) + ' minutes ago') ||
+        (diff < 7200 && 'il y a 1 heure') ||
+        (diff < 86400 && 'il y a ' + Math.floor(diff / 3600) + ' heures'))) ||
+    (day_diff === 1 && 'hier') ||
+    (day_diff < 7 && day_diff > 31 && 'il y a ' + day_diff + ' jours') ||
+    `il y a ${day_diff < 31 && Math.ceil(day_diff / 7)} semaines`
+  );
+}
