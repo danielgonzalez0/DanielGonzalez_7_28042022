@@ -83,6 +83,8 @@ export function prettyDate(time) {
         (diff < 86400 && 'il y a ' + Math.floor(diff / 3600) + ' heures'))) ||
     (day_diff === 1 && 'hier') ||
     (day_diff < 7 && day_diff > 31 && 'il y a ' + day_diff + ' jours') ||
-    `il y a ${day_diff < 31 && Math.ceil(day_diff / 7)} semaines`
+    (day_diff < 31 && Math.ceil(day_diff / 7) === 1 && 'il y a 1 semaine') ||
+    (Math.ceil(day_diff / 7) > 1 &&
+      `il y a ${Math.ceil(day_diff / 7)} semaines `)
   );
 }

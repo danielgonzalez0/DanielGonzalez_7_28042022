@@ -221,14 +221,17 @@
           flex-direction: column;
         }
 
-        .pseudo {
+        .fullname {
           display: flex;
 
           h3 {
-            font-family: $font-1;
+            font-family: $font-2;
+            font-size: 1rem;
           }
-          span {
-            transform: translateX(6px);
+          img {
+            box-shadow: none;
+            height: 15px;
+            width: 15px;
           }
         }
 

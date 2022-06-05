@@ -20,7 +20,6 @@ const DeleteAccount = () => {
         console.log(res);
         localStorage.clear();
         window.location = '/login';
-        alert('Compte supprimé');
       }) //end then
       .catch((err) => {
         console.log(err);
@@ -36,7 +35,13 @@ const DeleteAccount = () => {
       </p>
       <input
         type="submit"
-        onClick={handleDelete}
+        onClick={(e) => {
+          if (
+            window.confirm('Voulez-vous supprimer votre compte définitivement?')
+          ) {
+            handleDelete(e);
+          }
+        }}
         value="Supprimer mon compte"
       />
     </div>
