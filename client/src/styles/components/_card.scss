@@ -1,6 +1,7 @@
 .thread-container {
   max-width: 800px;
   margin: 0 auto;
+  margin-top: 60px;
 }
 
 .card-container {
@@ -99,7 +100,7 @@
     }
     .update-post {
       textarea {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         border: 1px solid $color-2;
         padding: 10px;
         border-radius: 20px 20px 6px 20px;
@@ -247,6 +248,7 @@
       .edit-comment {
         display: flex;
         flex-direction: column;
+
         span {
           justify-self: flex-end;
           align-self: flex-end;
@@ -339,7 +341,7 @@
         background: $color-4;
         border-radius: 20px 20px 6px 20px;
         padding: 20px;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
 
         &:focus {
           box-shadow: 0 0 2px rgba(51, 51, 51, 0.5);
