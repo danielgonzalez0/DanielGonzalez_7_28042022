@@ -245,10 +245,19 @@
         margin-top: 8px;
       }
       .edit-comment {
-        color: $color-2;
+        display: flex;
+        flex-direction: column;
+        span {
+          justify-self: flex-end;
+          align-self: flex-end;
+          width: 34px;
+          height: 34px;
+          background-color: $white;
+          border-radius: 50px;
+          padding: 8px 0 0 8px;
+        }
         img {
-          float: right;
-          margin-left: 10px;
+          float: center;
           cursor: pointer;
           transition: 0.15s;
           box-shadow: none;
@@ -261,6 +270,7 @@
         }
 
         .edit-comment-form {
+          width: 100%;
           margin-top: 14px;
           label {
             background: $white;
@@ -284,6 +294,17 @@
             width: 100%;
             border-radius: 6px 20px 6px 20px;
           }
+
+          input[type='submit'] {
+            background: $color-2;
+            width: 100px;
+            transition: 0.2s;
+
+            &:hover {
+              width: 100px;
+              background: $color-1;
+            }
+          }
           .btn {
             display: flex;
             align-items: center;
@@ -291,7 +312,8 @@
 
             span {
               background: $white;
-              padding: 10px 5px;
+              padding: 8px 0 2px 13px;
+
               border-radius: 50px;
               margin-right: 6px;
               transition: 0.2s;
@@ -303,16 +325,6 @@
 
               img {
                 transform: translate(-5px, 0);
-              }
-            }
-            input[type='submit'] {
-              background: $color-2;
-              width: inherit;
-              transition: 0.2s;
-
-              &:hover {
-                width: inherit;
-                background: $color-1;
               }
             }
           }

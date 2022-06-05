@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment, getComments } from '../../actions/comment.actions';
 import { isEmpty, prettyDate } from '../../Utils';
+import EditDeleteComment from './EditDeleteComment';
 
 const CardComments = ({ post, comments }) => {
   //hook
@@ -64,6 +65,7 @@ const CardComments = ({ post, comments }) => {
                   )}
                 </div>
                 <p>{comment.comment_content}</p>
+                <EditDeleteComment comment={comment} />
               </div>
             </div>
           );
