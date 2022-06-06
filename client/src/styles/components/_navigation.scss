@@ -1,10 +1,14 @@
 .navigation {
+  width: 100%;
+
   ul {
+    width: auto;
     display: flex;
     justify-content: center;
-    padding: 75px 30px 30px 30px;
+    padding: 30px 30px 30px 30px;
+    margin: 1px 0 0 0;
     background-color: $color-4;
-    box-shadow: 18px 1px 0px $color-1;
+    box-shadow: 0 1px 0px $color-1;
 
     a {
       text-decoration: none;

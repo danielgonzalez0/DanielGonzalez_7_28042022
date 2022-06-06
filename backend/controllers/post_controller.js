@@ -50,7 +50,7 @@ module.exports.createPost = async (req, res) => {
       fs.unlink(`${path}${req.file.filename}`, function (errors) {
         if (errors) console.log('ERROR: ' + errors);
       }); // end fs.unlink
-      return res.status(201).json(errors);
+      return res.status(201).json({errors});
     } //end try & catch
 
     // file path creation

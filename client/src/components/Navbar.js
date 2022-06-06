@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { UidContext } from './AppContext';
 import Logout from './Log/Logout';
+import Navigation from '../components/Navigation';
 
 const Navbar = () => {
   //hook
@@ -29,7 +30,7 @@ const Navbar = () => {
             <li></li>
             <li className="welcome">
               <NavLink to="/profil">
-                <img src={userData.user_picture} alt="image-profil" />
+                <img src={userData.user_picture} alt="pic-profil" />
                 <h5>{userData.user_fullname}</h5>
               </NavLink>
             </li>
@@ -46,6 +47,7 @@ const Navbar = () => {
           </ul>
         )}
       </div>
+      {uid ? <Navigation /> : null}
     </nav>
   );
 };

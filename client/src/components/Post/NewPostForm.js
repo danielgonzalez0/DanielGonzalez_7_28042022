@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { isEmpty, prettyDate } from '../../Utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty } from '../../Utils';
 import { NavLink } from 'react-router-dom';
-import { likePost } from '../../actions/like.actions';
+import { addPost, getPosts } from '../../actions/post.actions';
 
 const NewPostForm = () => {
   //hook
   const token = localStorage.getItem('accessToken');
   const [isLoading, setIsLoading] = useState(true);
-  const [message, setMessage] = useState('');
+  const [content, setContent] = useState('');
   const [postPicture, setPostPicture] = useState(null);
   const [file, setFile] = useState();
   const userData = useSelector((state) => state.userReducer);
+  const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
 
   //logique
   useEffect(() => {
@@ -23,12 +25,37 @@ const NewPostForm = () => {
     setFile(e.target.files[0]);
   };
 
-  const handlePost = () => {};
+  const handlePost = async () => {
+    if (content || postPicture) {
+      try {
+        if (file.size > 500000) throw 'Le fichier dépasse 500Ko';
+        if (
+          file.type !== 'image/jpeg' &&
+          file.type !== 'image/png' &&
+          file.type !== 'image/jpg'
+        )
+          throw 'Format compatible: .jpg, .jpeg, .png';
+
+        const data = new FormData();
+        data.append('content', content);
+        data.append('file', file);
+
+        await dispatch(addPost(data, token));
+        dispatch(getPosts(token));
+        cancelPost();
+      } catch (err) {
+        setErrorMessage(err);
+      }
+    } else {
+      alert('Veuillez entrer un message');
+    }
+  };
 
   const cancelPost = () => {
-    setMessage('');
+    setContent('');
     setPostPicture('');
     setFile('');
+    setErrorMessage('');
   };
 
   //JSX
@@ -52,13 +79,13 @@ const NewPostForm = () => {
 
             <div className="post-form">
               <textarea
-                name="message"
-                id="message"
+                name="content"
+                id="content"
                 placeholder="Que voulez-vous partager?"
-                onChange={(e) => setMessage(e.target.value)}
-                value={message}
+                onChange={(e) => setContent(e.target.value)}
+                value={content}
               />
-              {message || postPicture ? (
+              {content || postPicture ? (
                 <li className="card-container">
                   <div className="card-left">
                     <img src={userData.user_picture} alt="user-pic" />
@@ -72,7 +99,7 @@ const NewPostForm = () => {
                     </div>
                     <div className="content">
                       <img src={postPicture} alt="" />
-                      <p>{message}</p>
+                      <p>{content}</p>
                     </div>
                   </div>
                 </li>
@@ -96,7 +123,7 @@ const NewPostForm = () => {
                   />
                 </div>
                 <div className="btn-send">
-                  {message || postPicture ? (
+                  {content || postPicture ? (
                     <button className="cancel" onClick={cancelPost}>
                       Annuler message
                     </button>
@@ -107,6 +134,9 @@ const NewPostForm = () => {
                 </div>
               </div>
             </div>
+            {!isEmpty(errorMessage) && (
+              <p className="errorMessage">{errorMessage}</p>
+            )}
           </div>
         </>
       )}

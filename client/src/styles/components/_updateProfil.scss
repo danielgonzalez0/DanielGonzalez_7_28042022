@@ -89,7 +89,9 @@
 
     p {
       margin: 20px 0;
-      color: $color-3;
+      color: red;
+      font-family: $font-3;
+      text-align: center;
     }
 
     @keyframes modal {
