@@ -120,7 +120,7 @@ const Card = ({ post }) => {
                   </div>
                 </div>
               )}
-              {userdata.id_user === post.post_author && (
+              {(userdata.id_user === post.post_author || userdata.user_admin === 1) && (
                 <div className="button-container">
                   <div onClick={() => setIsUpdated(!isUpdated)}>
                     <img src="./img/icons/edit-list.png" alt="edit" />

@@ -1,0 +1,48 @@
+.book__card-container {
+  margin: auto 0;
+  display: flex;
+  align-items: center;
+  border: solid 2px $color-2;
+  height: 120px;
+  margin-bottom: 20px;
+  background-color: $white;
+  border-radius: 20px;
+
+  .picture-container {
+    height: 80px;
+    width: 80px;
+    margin: 0 10px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50px;
+      object-fit: cover;
+      border: solid 2px $shadow;
+    }
+  }
+
+  .info-container {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    p {
+      font-size: 1rem;
+      font-family: $font-2;
+      color: grey;
+      text-align: start;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: $color-1;
+    }
+    
+      @media screen and(max-width: 460px) {
+    .p-hide{
+display: none;
+    }
+  }
+  }
+}

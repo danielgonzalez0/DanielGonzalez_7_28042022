@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment, editComment } from '../../actions/comment.actions';
 import { UidContext } from '../AppContext';
 
 const EditDeleteComment = ({ comment }) => {
   //hook
   const token = localStorage.getItem('accessToken');
+  const userData = useSelector((state) => state.userReducer);
   const [isAuthor, setIsAuthor] = useState(false);
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState('');
@@ -16,12 +17,12 @@ const EditDeleteComment = ({ comment }) => {
 
   useEffect(() => {
     const checkAuthor = () => {
-      if (uid === comment.comment_author) {
+      if (uid === comment.comment_author || userData.user_admin === 1) {
         setIsAuthor(true);
       }
     };
     checkAuthor();
-  }, [uid, comment.comment_author]);
+  }, [uid, userData.user_admin, comment.comment_author]);
 
   const handleEdit = (e) => {
     e.preventDefault();
