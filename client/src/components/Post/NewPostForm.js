@@ -28,6 +28,8 @@ const NewPostForm = () => {
   const handlePost = async () => {
     if (content || postPicture) {
       try {
+
+        if (file) {
         if (file.size > 500000) throw 'Le fichier dépasse 500Ko';
         if (
           file.type !== 'image/jpeg' &&
@@ -35,11 +37,11 @@ const NewPostForm = () => {
           file.type !== 'image/jpg'
         )
           throw 'Format compatible: .jpg, .jpeg, .png';
-
+        }
         const data = new FormData();
         data.append('content', content);
         data.append('file', file);
-
+        
         await dispatch(addPost(data, token));
         dispatch(getPosts(token));
         cancelPost();
