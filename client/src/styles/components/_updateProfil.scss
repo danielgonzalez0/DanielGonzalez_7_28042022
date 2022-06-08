@@ -27,12 +27,21 @@
   border-radius: 0 0 25px 25px;
   padding: 100px 0 50px 0;
 
+  @media screen and(max-width: 440px) {
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+
   .profil-container-p {
     font-size: 1.1rem;
     font-family: $font-2;
     color: grey;
     margin: 20px 0;
     text-align: center;
+    @media screen and(max-width: 440px) {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -46,6 +55,12 @@
     border-radius: 50px;
     object-fit: cover;
     border: solid 2px white;
+
+    @media screen and(max-width: 440px) {
+      width: 120px;
+      height: 120px;
+      border-radius: 30px;
+    }
   }
 }
 
@@ -132,6 +147,9 @@
           color: $color-2;
           background-color: $color-1;
         }
+        @media screen and(max-width: 440px) {
+          width: 28%;
+        }
       }
     }
     .profil-photo-section {
@@ -155,6 +173,16 @@
           &:hover {
             transform: scale(1.07);
           }
+          @media screen and(max-width: 490px) {
+            right: -0px;
+          }
+
+          @media screen and(max-width: 440px) {
+            right: -15px;
+          }
+        }
+        @media screen and(max-width: 440px) {
+          margin-bottom: 20px;
         }
       }
       form {
@@ -194,6 +222,14 @@
           border-radius: 20px;
           margin-bottom: 10px;
         }
+
+        @media screen and(max-width: 440px) {
+          width: 100%;
+        }
+      }
+      @media screen and(max-width: 440px) {
+        flex-direction: column;
+        align-items: center;
       }
     }
 

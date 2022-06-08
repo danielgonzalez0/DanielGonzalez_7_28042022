@@ -92,8 +92,14 @@ body {
 .error {
   color: red;
   font-weight: bold;
+  @media screen and(max-width: 440px) {
+    font-size: 0.8rem;
+  }
 }
 .success {
   color: green;
   font-weight: bold;
+  @media screen and(max-width: 440px) {
+    font-size: 0.8rem;
+  }
 }

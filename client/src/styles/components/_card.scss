@@ -40,10 +40,15 @@
       object-fit: cover;
 
       @media screen and(max-width: 590px) {
-        height: 40px;
-        width: 40px;
+        height: 50px;
+        width: 50px;
         margin-left: 18px;
         border-radius: 14px;
+      }
+
+      @media screen and(max-width: 440px) {
+        height: 40px;
+        width: 40px;
       }
     }
     @media screen and(max-width: 590px) {
@@ -56,17 +61,29 @@
     @media screen and(max-width: 590px) {
       margin-left: 18px;
     }
+
+    @media screen and(max-width: 440px) {
+      display: flex;
+      flex-direction: column;
+      .content {
+        font-size: 1rem;
+      }
+    }
     .card-header {
       display: flex;
       justify-content: space-between;
       margin: 2px 0 4px;
 
       @media screen and(max-width: 590px) {
-        margin: 12px 0 14px;
+        margin: 0 0 14px;
       }
 
       @media screen and(max-width: 440px) {
         flex-direction: column;
+        margin-top: 0;
+        .fullname p {
+          font-size: 12px;
+        }
       }
 
       .fullname {
@@ -79,6 +96,25 @@
         p {
           font-size: 1rem;
         }
+
+        @media screen and(max-width: 590px) {
+          margin-left: 60px;
+        }
+
+        @media screen and(max-width: 440px) {
+          margin-left: 45px;
+          display: flex;
+          h3,
+          p {
+            margin: 0;
+            height: 22px;
+            padding: 0 5px 0 5px;
+            font-size: 0.8rem;
+          }
+          .job {
+            margin-top: -18px;
+          }
+        }
       }
 
       span {
@@ -86,17 +122,13 @@
         font-family: $font-1;
 
         @media screen and(max-width: 440px) {
-          transform: translate(52px, -20px);
+          display: none;
         }
       }
     }
     p {
       margin: 3px 0 9px;
       font-size: 1.1rem;
-
-      @media screen and(max-width: 440px) {
-        margin-top: -18px;
-      }
     }
     .update-post {
       textarea {
@@ -115,6 +147,10 @@
             background: $color-1;
             width: 250px;
             letter-spacing: 1px;
+          }
+
+          @media screen and(max-width: 440px) {
+            font-size: 1rem;
           }
         }
       }
@@ -228,6 +264,9 @@
           h3 {
             font-family: $font-2;
             font-size: 1rem;
+            @media screen and(max-width: 440px) {
+              font-size: 0.8rem;
+            }
           }
           img {
             box-shadow: none;
@@ -240,10 +279,16 @@
           font-size: 0.9rem;
           font-style: italic;
           font-family: $font-1;
+          @media screen and(max-width: 440px) {
+            font-size: 0.8rem;
+          }
         }
       }
       p {
         margin-top: 8px;
+        @media screen and(max-width: 440px) {
+          font-size: 1rem;
+        }
       }
       .edit-comment {
         display: flex;
@@ -295,6 +340,9 @@
             padding: 16px;
             width: 100%;
             border-radius: 6px 20px 6px 20px;
+            @media screen and(max-width: 440px) {
+              font-size: 1rem;
+            }
           }
 
           input[type='submit'] {
@@ -305,6 +353,9 @@
             &:hover {
               width: 100px;
               background: $color-1;
+            }
+            @media screen and(max-width: 440px) {
+              font-size: 1rem;
             }
           }
           .btn {
@@ -346,6 +397,9 @@
         &:focus {
           box-shadow: 0 0 2px rgba(51, 51, 51, 0.5);
         }
+        @media screen and(max-width: 440px) {
+          font-size: 1rem;
+        }
       }
       input[type='submit'] {
         margin-top: 4px;
@@ -360,6 +414,10 @@
           background: $color-1;
           letter-spacing: 2px;
           width: 130px;
+        }
+
+        @media screen and(max-width: 440px) {
+          font-size: 1rem;
         }
       }
       button {

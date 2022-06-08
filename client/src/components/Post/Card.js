@@ -106,7 +106,9 @@ const Card = ({ post }) => {
                 />
               )}
 
-              {isUpdated === false && <p>{post.post_content}</p>}
+              {isUpdated === false && (
+                <p className="content">{post.post_content}</p>
+              )}
               {isUpdated && (
                 <div className="update-post">
                   <textarea
@@ -120,7 +122,8 @@ const Card = ({ post }) => {
                   </div>
                 </div>
               )}
-              {(userdata.id_user === post.post_author || userdata.user_admin === 1) && (
+              {(userdata.id_user === post.post_author ||
+                userdata.user_admin === 1) && (
                 <div className="button-container">
                   <div onClick={() => setIsUpdated(!isUpdated)}>
                     <img src="./img/icons/edit-list.png" alt="edit" />

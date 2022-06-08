@@ -28,20 +28,19 @@ const NewPostForm = () => {
   const handlePost = async () => {
     if (content || postPicture) {
       try {
-
         if (file) {
-        if (file.size > 500000) throw 'Le fichier dépasse 500Ko';
-        if (
-          file.type !== 'image/jpeg' &&
-          file.type !== 'image/png' &&
-          file.type !== 'image/jpg'
-        )
-          throw 'Format compatible: .jpg, .jpeg, .png';
+          if (file.size > 500000) throw 'Le fichier dépasse 500Ko';
+          if (
+            file.type !== 'image/jpeg' &&
+            file.type !== 'image/png' &&
+            file.type !== 'image/jpg'
+          )
+            throw 'Format compatible: .jpg, .jpeg, .png';
         }
         const data = new FormData();
         data.append('content', content);
         data.append('file', file);
-        
+
         await dispatch(addPost(data, token));
         dispatch(getPosts(token));
         cancelPost();
@@ -127,7 +126,7 @@ const NewPostForm = () => {
                 <div className="btn-send">
                   {content || postPicture ? (
                     <button className="cancel" onClick={cancelPost}>
-                      Annuler message
+                      Annuler
                     </button>
                   ) : null}
                   <button className="send" onClick={handlePost}>
