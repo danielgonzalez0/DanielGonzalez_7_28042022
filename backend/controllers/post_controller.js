@@ -7,7 +7,7 @@ const chemin = require('path');
 module.exports.readPost = async (req, res) => {
   try {
     mysql.query(
-      `SELECT * FROM sn_posts ORDER BY post_update DESC;`,
+      `SELECT * FROM sn_posts ORDER BY id_post DESC;`,
       (error, result) => {
         if (error) {
           console.log(error);
@@ -50,7 +50,7 @@ module.exports.createPost = async (req, res) => {
       fs.unlink(`${path}${req.file.filename}`, function (errors) {
         if (errors) console.log('ERROR: ' + errors);
       }); // end fs.unlink
-      return res.status(201).json({errors});
+      return res.status(201).json({ errors });
     } //end try & catch
 
     // file path creation
@@ -352,7 +352,7 @@ module.exports.unlikePost = async (req, res) => {
           res.status(404).json({ message: 'Post non trouvé!' });
         } else {
           const idAuthor = post[0].post_author;
-         /* if (idAuthor === userId)
+          /* if (idAuthor === userId)
             return res.status(400).json({
               message: `L'auteur du post n'est pas authorisé à aimer son post`,
             });*/
