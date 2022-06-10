@@ -9,9 +9,9 @@ React, Redux, axios, sass, SQL (Mysql), JWT, EXPRESS, bcrypt, multer
 1. Après avoir cloner ou deziper le repo sur votre PC, placer vous dans le répertoire backend et utiliser la commande `npm install` dans le terminal pour installer les dépendances du package.json
 
 2. Créer un fichier .env à la racine du répertoire backend pour mettre à jour les variables d'environnement suivantes:
-   PORT = 5000
-   CLIENT_URL = http://localhost:3000
-   SQL_PASSWORD = (envoyez séparément)
+   PORT = 5000   
+   CLIENT_URL = http://localhost:3000  
+   SQL_PASSWORD = (envoyez séparément)  
    ACCESS_TOKEN_SECRET = (envoyez séparément)
 
 ## Installation base de données (social_network)
