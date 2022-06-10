@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UidContext } from '../components/AppContext';
 import Navbar from '../components/Navbar';
 import UpdateProfil from '../components/profil/UpdateProfil';
+import Login from './Login';
 
 const Profil = () => {
+  const uid = useContext(UidContext);
+
   return (
     <>
-      <Navbar />
-    
-      <div className="profil-page">
-        <UpdateProfil />
-      </div>
+      {uid ? (
+        <>
+          <Navbar />
+          <div className="profil-page">
+            <UpdateProfil />
+          </div>
+        </>
+      ) : (
+        <>
+          <Login />
+        </>
+      )}
     </>
   );
 };

@@ -138,7 +138,32 @@ VALUES
 */
 
 INSERT INTO `sn_posts`(`post_content`, `post_image`, `post_author`)
-VALUES('Allez au travail!!!!', '', 2);
+VALUES
+('post test', '', 2),
+(`J'ai le grand plaisir de vous annoncer le lancement du nouveau réseau interne de Groupomania!!!!
+
+A vos posts , prêt, partagez 🏃🏃‍♂️🏃‍♀️`, './uploads/posts/1654804298990.jpg', 7),
+(`Aujourd'hui c'est le grand jour! 
+la rencontre entre la direction financière et la direction commeciale aura lieu à 12h
+Venez nombreux les encouragés! Il y a aura des snacks et des boissons à disposition 😉`, './uploads/posts/1654804597412.jpg', 9),
+(`L'équipe Marketing en plein effort!!!
+Dernière ligne droite avant le lancement de la nouvelle campagne de distribution!!`, './uploads/posts/1654805078174.jpg', 20),
+(`Après l'effort le réconfort. Moment détente dans notre nouveau espace café près du service marketing.
+Nous avons prévu un grand nombre de viennoiserie!!  N'hésitez pas à passer lors de votre pause `, './uploads/posts/1654805278936.jpg', 4),
+(`Ouverture demain de notre nouvelle espace coworking au 1er étage. 
+Vous pouvez dès maintenant réserver votre créneau sur l'intranet du groupe!`, './uploads/posts/1654805425967.jpg', 11),
+(`Les inscriptions pour l'initiation au golf commence aujourd'hui 12h. 
+Vous pouvez m'envoyer votre demande par mail. 
+Pour rappel les conjoints et enfants sont les bienvenus!! Il y a aura aussi des animations et de la restauration alors n'hésitez plus et venez nombreux !!!`, './uploads/posts/1654805629013.jpg', 13),
+(`J'ai le plaisir de vous annoncer l'ouverture de notre enseigne 'le café gourmand" dans ce marché couvert à valence en Espagne. 
+
+Si vous avez l'occasion de voyager là-bas, passez y faire un tour, bous ne le regretterez pas !!`, './uploads/posts/1654806631574.jpg', 6),
+(`Fin de la clôture annuelle!  Merci à toutes les équipes de la finance pour leur investissement et leur travail! Merci à tous les contributeurs pour leurs soutiens!
+J'organise un pot dans l'espace détente ce vendredi 16h pour vous remercier tous!`, './uploads/posts/1654851259902.jpg', 3),
+(`Bravo aux filles du groupe qui ont participé et surtout fini le marathon de paris 💪💪 `, './uploads/posts/1654851649783.jpg', 23),
+(`La direction se joint à moi pour vous souhaitez à toutes et à tous de bonnes vacances pour cette période estivale! Profitez bien, vous l'avez bien mérité et surtout déconnectez vous du travail!!`, './uploads/posts/1654851822112.jpg', 2);
+
+
 
 /*
 ----------------------------------------------------------------------------------------------------------------
@@ -154,5 +179,120 @@ VALUES('Allez au travail!!!!', '', 2);
 */
 
 INSERT INTO `sn_comments`(`comment_content`,`comment_author`, `comment_parent`, `comment_fullname`)
-VALUES('1er commentaire',2,1,'Pierre Paulet');
+VALUES
+('1er commentaire',2,1,'Pierre Paulet'),
+(`1er post!!! Gagné!!!!`,16,2,'Enzo Dupuis'),
+(`Enjoy et que le meilleur gagne!`,2,3,'Pierre Paulet'),
+(`Bravo, belle esprit d'équipe. Ne lâchez rien`,2,4,'Pierre Paulet'),
+(`Bon match à mon équipe. Attention aux blessures, la clôture annuelle arrive bientôt`,3,3,'Fabien Fouquet'),
+(`Je serai en vacances dans le coin en aout. Je ne manquerai pas d'y faire un tour!`,23,8,'Justine Clément'),
+(`Belle initiative!  Je vais y participer`,23,7,'Justine Clément'),
+(`Allez le Commerce!!!!`,23,3,'Justine Clément'),
+(`Ca ne m'étonne pas de toi Enzo 😂😂`,23,2,'Justine Clément'),
+(`Bravo les filles!!`,2,11,'Pierre Paulet'),
+(`Bravo à la finance! Excellent boulot`,2,10,'Pierre Paulet'),
+(`Merci grand chef`,14,12,'Hugues Maiseau'),
+(`Bravo!! Je n'y serai jamais arrivé perso`,14,11,'Hugues Maiseau'),
+(`Bravo à tous`,14,10,'Hugues Maiseau'),
+(`idem, je viens avec toutes la famille`,14,7,'Hugues Maiseau'),
+(`Hâte de le tester`,14,6,'Hugues Maiseau'),
+(`bravo! c'est bientôt notre tour avec le budget...`,14,4,'Hugues Maiseau'),
+(`Attention à vous au commerce. Nous sommes bien entraîné 😉`,14,3,'Hugues Maiseau'),
+(`Belle outil en tout cas! Merci`,14,2,'Hugues Maiseau'),
+(`Ouf! Vivement les vacances!!!`,19,10,'Jeanne Laforge'),
+(`Merci pour vos encouragements!!`,19,11,'Jeanne Laforge'),
+(`Bonnes vacances à tous!!`,19,12,'Jeanne Laforge'),
+(`Dommage pour moi! Je ne pourrai pas venir....`,19,7,'Jeanne Laforge'),
+(`Place réservée!!`,19,6,'Jeanne Laforge'),
+(`Miam miam! merci pour l'invitation`,19,5,'Jeanne Laforge'),
+(`Allez la finance!!!`,19,3,'Jeanne Laforge'),
+(`La piscine donne envie!! Bonnes vacances`,8,12,'Alice Durand'),
+(`Incroyable les filles!!`,8,11,'Alice Durand'),
+(`Dépêchez vous avant que Tristan ne mange tout!!!`,8,5,'Alice Durand'),
+(`Ah ah ah Merci pour la réputation 😂😂`,20,5,'Tristan Marseau');
 
+
+
+
+/*
+----------------------------------------------------------------------------------------------------------------
+-- ajout Likes -----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+*/
+INSERT INTO `sn_likes`(`like_user`,`like_post`, `like_key`)
+VALUES
+(16, 3, CONCAT(like_user,'/',like_post)),
+(16, 2, CONCAT(like_user,'/',like_post)),
+(13, 2, CONCAT(like_user,'/',like_post)),
+(13, 3, CONCAT(like_user,'/',like_post)),
+(13, 4, CONCAT(like_user,'/',like_post)),
+(13, 5, CONCAT(like_user,'/',like_post)),
+(13, 6, CONCAT(like_user,'/',like_post)),
+(6, 7, CONCAT(like_user,'/',like_post)),
+(6, 6, CONCAT(like_user,'/',like_post)),
+(6, 5, CONCAT(like_user,'/',like_post)),
+(6, 4, CONCAT(like_user,'/',like_post)),
+(6, 3, CONCAT(like_user,'/',like_post)),
+(6, 2, CONCAT(like_user,'/',like_post)),
+(2, 8, CONCAT(like_user,'/',like_post)),
+(2, 7, CONCAT(like_user,'/',like_post)),
+(2, 6, CONCAT(like_user,'/',like_post)),
+(2, 5, CONCAT(like_user,'/',like_post)),
+(2, 4, CONCAT(like_user,'/',like_post)),
+(2, 3, CONCAT(like_user,'/',like_post)),
+(2, 2, CONCAT(like_user,'/',like_post)),
+(3, 8, CONCAT(like_user,'/',like_post)),
+(3, 7, CONCAT(like_user,'/',like_post)),
+(3, 6, CONCAT(like_user,'/',like_post)),
+(3, 5, CONCAT(like_user,'/',like_post)),
+(3, 4, CONCAT(like_user,'/',like_post)),
+(3, 3, CONCAT(like_user,'/',like_post)),
+(3, 2, CONCAT(like_user,'/',like_post)),
+(23, 10, CONCAT(like_user,'/',like_post)),
+(23, 8, CONCAT(like_user,'/',like_post)),
+(23, 6, CONCAT(like_user,'/',like_post)),
+(23, 5, CONCAT(like_user,'/',like_post)),
+(23, 4, CONCAT(like_user,'/',like_post)),
+(23, 2, CONCAT(like_user,'/',like_post)),
+(23, 3, CONCAT(like_user,'/',like_post)),
+(23, 7, CONCAT(like_user,'/',like_post)),
+(2, 11, CONCAT(like_user,'/',like_post)),
+(2, 10, CONCAT(like_user,'/',like_post)),
+(14, 12, CONCAT(like_user,'/',like_post)),
+(14, 11, CONCAT(like_user,'/',like_post)),
+(14, 10, CONCAT(like_user,'/',like_post)),
+(14, 8, CONCAT(like_user,'/',like_post)),
+(14, 7, CONCAT(like_user,'/',like_post)),
+(14, 6, CONCAT(like_user,'/',like_post)),
+(14, 5, CONCAT(like_user,'/',like_post)),
+(14, 4, CONCAT(like_user,'/',like_post)),
+(14, 3, CONCAT(like_user,'/',like_post)),
+(14, 2, CONCAT(like_user,'/',like_post)),
+(19, 10, CONCAT(like_user,'/',like_post)),
+(19, 11, CONCAT(like_user,'/',like_post)),
+(19, 12, CONCAT(like_user,'/',like_post)),
+(19, 8, CONCAT(like_user,'/',like_post)),
+(19, 7, CONCAT(like_user,'/',like_post)),
+(19, 6, CONCAT(like_user,'/',like_post)),
+(19, 5, CONCAT(like_user,'/',like_post)),
+(19, 4, CONCAT(like_user,'/',like_post)),
+(19, 3, CONCAT(like_user,'/',like_post)),
+(19, 2, CONCAT(like_user,'/',like_post)),
+(8, 12, CONCAT(like_user,'/',like_post)),
+(8, 11, CONCAT(like_user,'/',like_post)),
+(8, 10, CONCAT(like_user,'/',like_post)),
+(8, 8, CONCAT(like_user,'/',like_post)),
+(8, 5, CONCAT(like_user,'/',like_post)),
+(8, 4, CONCAT(like_user,'/',like_post)),
+(8, 3, CONCAT(like_user,'/',like_post)),
+(8, 2, CONCAT(like_user,'/',like_post)),
+(20, 11, CONCAT(like_user,'/',like_post)),
+(20, 12, CONCAT(like_user,'/',like_post)),
+(20, 10, CONCAT(like_user,'/',like_post)),
+(20, 8, CONCAT(like_user,'/',like_post)),
+(20, 5, CONCAT(like_user,'/',like_post)),
+(20, 2, CONCAT(like_user,'/',like_post)),
+(20, 3, CONCAT(like_user,'/',like_post)),
+(20, 4, CONCAT(like_user,'/',like_post)),
+(20, 6, CONCAT(like_user,'/',like_post)),
+(20, 7, CONCAT(like_user,'/',like_post));
