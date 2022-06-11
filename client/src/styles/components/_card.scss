@@ -5,6 +5,9 @@
 }
 
 .card-container {
+  display: flex;
+  flex-wrap: nowrap;
+  max-width: 100%;
   display: grid;
   background-color: $white;
   grid-template-columns: 66px 1fr;
@@ -18,6 +21,7 @@
 
   @media screen and(max-width: 590px) {
     grid-template-columns: 1fr;
+    padding-top: 26px; //asupp
   }
   @media screen and(max-width: 440px) {
     padding-top: 26px;
@@ -67,12 +71,15 @@
       flex-direction: column;
       .content {
         font-size: 1rem;
+        white-space: normal;
+        height: auto;
       }
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       margin: 2px 0 4px;
+      max-width: 100%;
 
       @media screen and(max-width: 590px) {
         margin: 0 0 14px;
@@ -83,6 +90,7 @@
         margin-top: 0;
         .fullname p {
           font-size: 12px;
+          white-space: normal;
         }
       }
 
@@ -95,6 +103,7 @@
 
         p {
           font-size: 1rem;
+          white-space: normal;
         }
 
         @media screen and(max-width: 590px) {
@@ -110,6 +119,7 @@
             height: 22px;
             padding: 0 5px 0 5px;
             font-size: 0.8rem;
+            white-space: normal;
           }
           .job {
             margin-top: -18px;
@@ -129,6 +139,7 @@
     p {
       margin: 3px 0 9px;
       font-size: 1.1rem;
+      white-space: normal;
     }
     .update-post {
       textarea {
@@ -156,10 +167,12 @@
       }
     }
     .card-pic {
-      width: 100%;
       border-radius: 6px;
       margin-top: 12px;
       box-shadow: 0 0 3px rgba(51, 51, 51, 0.342);
+      max-width: 100%;
+      height: auto;
+      object-fit: cover;
     }
     iframe {
       width: 100%;
@@ -286,6 +299,7 @@
       }
       p {
         margin-top: 8px;
+        white-space: normal;
         @media screen and(max-width: 440px) {
           font-size: 1rem;
         }

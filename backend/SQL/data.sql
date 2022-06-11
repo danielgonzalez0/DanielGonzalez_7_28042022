@@ -141,13 +141,13 @@ INSERT INTO `sn_posts`(`post_content`, `post_image`, `post_author`)
 VALUES
 ('post test', '', 2),
 ('J"ai le grand plaisir de vous annoncer le lancement du nouveau réseau interne de Groupomania!!!! A vos posts , prêt, partagez 🏃🏃‍♂️🏃‍♀️', './uploads/posts/1654804298990.jpg', 7),
-('Aujourd"hui c"est le grand jour!  la rencontre entre la direction financière et la direction commeciale aura lieu à 12h. Venez nombreux les encourager! Il y a aura des snacks et des boissons à disposition 😉', './uploads/posts/1654804597412.jpg', 9),
-('L"équipe Marketing en plein effort!!!
-Dernière ligne droite avant le lancement de la nouvelle campagne de distribution!!', './uploads/posts/1654805078174.jpg', 20),
+('Aujourd"hui c"est le grand jour!La rencontre entre la direction financière et la direction commeciale aura lieu à 12h. Venez nombreux les encourager! Il y a aura des snacks et des boissons à disposition 😉', './uploads/posts/1654804597412.jpg', 9),
+('L"équipe Marketing en plein effort!!!
+Dernière ligne droite avant le lancement de la nouvelle campagne de distribution!!', './uploads/posts/1654805078174.jpg', 20),
 ('Après l"effort le réconfort. Moment détente dans notre nouvel espace café près du service marketing.
 Nous avons prévu un grand nombre de viennoiseries!!  N"hésitez pas à passer lors de votre pause ', './uploads/posts/1654805278936.jpg', 4),
-('Ouverture demain de notre nouvel espace coworking au 1er étage. 
-Vous pouvez dès maintenant réserver votre créneau sur l"intranet du groupe!', './uploads/posts/1654805425967.jpg', 11),
+('Ouverture demain de notre nouvel espace coworking au 1er étage.
+Vous pouvez dès maintenant réserver votre créneau sur l"intranet du groupe!', './uploads/posts/1654805425967.jpg', 11),
 ('Les inscriptions pour l"initiation au golf commencent aujourd"hui 12h. 
 Vous pouvez m"envoyer votre demande par mail. 
 Pour rappel les conjoints et enfants sont les bienvenus!! Il y a aura aussi des animations et de la restauration alors n"hésitez plus et venez nombreux !!!', './uploads/posts/1654805629013.jpg', 13),
